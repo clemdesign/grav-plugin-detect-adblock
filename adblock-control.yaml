@@ -2,3 +2,5 @@
 # Global configurations
 
 enabled: true       # Enable the plugin
+ganalytics: true    # Enable Google Analytics tracking
+message: true       # Enable message displaying

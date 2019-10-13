@@ -1,0 +1,12 @@
+name:                                   "AdBlock Control"
+version:                                1.0.0
+description:                            "This plugin help you to control adblock and detect it, display message, manage analytics..."
+icon:                                   ban
+author:
+  name:                                 clemdesign
+  email:                                contact@clemdesign.fr
+homepage:                               https://github.com/clemdesign/grav-plugin-adsense2
+keywords:                               [adblock, grav, extension, plugin, google, antiadblock, analytics]
+docs:                                   https://github.com/clemdesign/grav-plugin-adblock-control/blob/master/README.md
+bugs:                                   https://github.com/clemdesign/grav-plugin-adblock-control/issues
+license:                                MIT

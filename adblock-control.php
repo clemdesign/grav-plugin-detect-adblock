@@ -44,7 +44,8 @@ class AdblockControlPlugin extends Plugin
   {
 
     return [
-      'onPluginsInitialized' => ['onPluginsInitialized', 0]
+      'onPluginsInitialized' => ['onPluginsInitialized', 0],
+      'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
     ];
   }
 
@@ -67,12 +68,30 @@ class AdblockControlPlugin extends Plugin
   public function onPageInitialized(Event $e)
   {
     $this->grav['assets']->add('plugin://adblock-control/assets/js/ads.js', null, true, null, 'bottom');
-    $this->grav['assets']->addInlineJs('
-if(document.getElementById(\'AdBloCKcoNTRol\')){
-  alert(\'Blocking Ads: No\');
-} else {
-  alert(\'Blocking Ads: Yes\');
-}
-', null, 'bottom');
+
+    // Add Detection JS
+    $inlineJs = 'var abDetected = (document.getElementById(\'AdBloCKcoNTRol\')!==null);';
+
+    // Add Analytics JS
+    if($this->config->get('plugins.adblock-control.ganalytics')){
+      $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',abDetected,{\'nonInteraction\':1});}';
+      $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',abDetected,undefined,undefined,true]);}';
+    }
+
+    // Add Message
+    if($this->config->get('plugins.adblock-control.message')){
+      $inlineJs .= 'if(document.getElementById(\'adblock-control\')!==null){document.getElementById(\'adblock-control\').style.display=\'block\';}';
+      $this->grav['assets']->addCss('plugin://adblock-control/assets/css/adblock-control.css');
+    }
+
+    $this->grav['assets']->addInlineJs($inlineJs, null, 'bottom');
+  }
+
+  /**
+   * Add current directory to twig lookup paths.
+   */
+  public function onTwigTemplatePaths()
+  {
+    $this->grav['twig']->twig_paths[] = __DIR__.'/templates';
   }
 }

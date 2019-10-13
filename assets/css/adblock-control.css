@@ -1,0 +1,34 @@
+.adblock-control {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255,255,255,0.5);
+  z-index: 100;
+}
+
+.adblock-control .abc-message {
+  position: relative;
+  width: 60%;
+  margin: auto;
+  top: 20%;
+  background: #FFFF;
+  padding: 2rem;
+  border: 2px solid #ff2929;
+  border-radius: 1rem;
+}
+
+.adblock-control .abc-message .abc-buttons {
+  position: absolute;
+  width: 100px;
+  height: 48px;
+  top: 0;
+  right: 3%;
+  text-align: right;
+  font-size: 2rem;
+}
+
+.adblock-control .abc-message .abc-content {
+  font-size: 1.5rem;
+}
