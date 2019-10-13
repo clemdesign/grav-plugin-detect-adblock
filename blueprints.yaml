@@ -7,6 +7,6 @@ author:
   email:                                contact@clemdesign.fr
 homepage:                               https://github.com/clemdesign/grav-plugin-adsense2
 keywords:                               [adblock, grav, extension, plugin, google, antiadblock, analytics]
-docs:                                   https://github.com/clemdesign/grav-plugin-adblock-control/blob/master/README.md
-bugs:                                   https://github.com/clemdesign/grav-plugin-adblock-control/issues
+docs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/blob/master/README.md
+bugs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/issues
 license:                                MIT

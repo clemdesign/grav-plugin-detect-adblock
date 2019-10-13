@@ -27,7 +27,7 @@ use RocketTheme\Toolbox\Event\Event;
  * This plugin enables to use AdblockControlPlugin inside a document
  * to be rendered by Grav.
  */
-class AdblockControlPlugin extends Plugin
+class DetectAdBlockPlugin extends Plugin
 {
 
   /**
@@ -55,7 +55,7 @@ class AdblockControlPlugin extends Plugin
   public function onPluginsInitialized()
   {
 
-    if (!$this->isAdmin() && $this->config->get('plugins.adblock-control.enabled')) {
+    if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
         'onPageInitialized'     => ['onPageInitialized', 0]
       ]);
@@ -67,21 +67,21 @@ class AdblockControlPlugin extends Plugin
    */
   public function onPageInitialized(Event $e)
   {
-    $this->grav['assets']->add('plugin://adblock-control/assets/js/ads.js', null, true, null, 'bottom');
+    $this->grav['assets']->add('plugin://detect-adblock/assets/js/ads.js', null, true, null, 'bottom');
 
     // Add Detection JS
     $inlineJs = 'var abDetected = (document.getElementById(\'AdBloCKcoNTRol\')!==null);';
 
     // Add Analytics JS
-    if($this->config->get('plugins.adblock-control.ganalytics')){
+    if($this->config->get('plugins.detect-adblock.ganalytics')){
       $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',abDetected,{\'nonInteraction\':1});}';
       $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',abDetected,undefined,undefined,true]);}';
     }
 
     // Add Message
-    if($this->config->get('plugins.adblock-control.message')){
-      $inlineJs .= 'if(document.getElementById(\'adblock-control\')!==null){document.getElementById(\'adblock-control\').style.display=\'block\';}';
-      $this->grav['assets']->addCss('plugin://adblock-control/assets/css/adblock-control.css');
+    if($this->config->get('plugins.detect-adblock.message')){
+      $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+      $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
     }
 
     $this->grav['assets']->addInlineJs($inlineJs, null, 'bottom');

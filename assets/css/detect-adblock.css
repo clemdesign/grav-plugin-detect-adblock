@@ -1,25 +1,25 @@
-.adblock-control {
+.detect-adblock {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,0.8);
   z-index: 100;
 }
 
-.adblock-control .abc-message {
+.detect-adblock .abc-message {
   position: relative;
   width: 60%;
   margin: auto;
   top: 20%;
-  background: #FFFF;
+  background: #FFFFFF;
   padding: 2rem;
-  border: 2px solid #ff2929;
+  border: 2px solid #506bff;
   border-radius: 1rem;
 }
 
-.adblock-control .abc-message .abc-buttons {
+.detect-adblock .abc-message .abc-buttons {
   position: absolute;
   width: 100px;
   height: 48px;
@@ -29,6 +29,6 @@
   font-size: 2rem;
 }
 
-.adblock-control .abc-message .abc-content {
+.detect-adblock .abc-message .abc-content {
   font-size: 1.5rem;
 }
