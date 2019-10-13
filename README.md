@@ -15,7 +15,7 @@ This plugin works as an anti-adblock or just for statistics.
 
 If you want to manage Google Analytics, you shall include the snippets in your site:
   - Using your own integration (in theme or other)
-  - Using Grav plugin [Google Naalytics](https://github.com/escopecz/grav-ganalytics) by John Linhart.
+  - Using Grav plugin [Google Analytics](https://github.com/escopecz/grav-ganalytics) by John Linhart.
   
 ## Installation
 
@@ -72,7 +72,7 @@ You can overwrite this template in your theme, but be careful to:
 
 This plugin doesn't manage the Google Analytics integration. You shall do it in your theme or using a plugin (See chapter Pre-requisites).  
 
-Notify to Google Analytics the blocking user status work if:
+Notify to Google Analytics the blocking user status works if:
 - `ga` object is defined OR
 - `_gap` is defined
 
