@@ -70,7 +70,7 @@ class DetectAdBlockPlugin extends Plugin
     $this->grav['assets']->add('plugin://detect-adblock/assets/js/ads.js', null, true, null, 'bottom');
 
     // Add Detection JS
-    $inlineJs = 'var abDetected = (document.getElementById(\'DeTEctAdBloCK\')!==null);';
+    $inlineJs = 'var abDetected = !(document.getElementById(\'DeTEctAdBloCK\')!==null);';
 
     // Add Analytics JS
     if($this->config->get('plugins.detect-adblock.ganalytics')){
@@ -81,13 +81,15 @@ class DetectAdBlockPlugin extends Plugin
     // Manage Message
     if($this->config->get('plugins.detect-adblock.message')){
 
+      $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){';
+
       //Manage display only one times
       $displayOnlyOneTimes = $this->config->get('plugins.detect-adblock.displayone');
       if($displayOnlyOneTimes){
         $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
-        $inlineJs .= 'if((document.getElementById(\'detect-adblock\')!==null) && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+        $inlineJs .= 'if(abDetected && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
       } else {
-        $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+        $inlineJs .= 'if(abDetected){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
       }
 
       //Function to hide message
@@ -95,7 +97,7 @@ class DetectAdBlockPlugin extends Plugin
       if($displayOnlyOneTimes) {
         $inlineJs .= 'setCookie("detect-adblock","true",1)';
       }
-      $inlineJs .= '}';
+      $inlineJs .= '}}';
 
       // Add CSS
       $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');

@@ -1,4 +1,4 @@
-name:                                   "AdBlock Control"
+name:                                   "Detect AdBlock"
 version:                                1.0.0
 description:                            "This plugin help you to control adblock and detect it, display message, manage analytics..."
 icon:                                   ban
@@ -10,3 +10,54 @@ keywords:                               [adblock, grav, extension, plugin, googl
 docs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/blob/master/README.md
 bugs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/issues
 license:                                MIT
+
+
+form:
+  validation:                           strict
+  fields:
+    enabled:
+      type:                             toggle
+      label:                            PLUGIN_DETECT_ADBLOCK.PLUGIN_STATUS
+      highlight:                        1
+      default:                          0
+      options:
+        1:                              PLUGIN_ADMIN.ENABLED
+        0:                              PLUGIN_ADMIN.DISABLED
+      validate:
+        type:                           bool
+
+    ganalytics:
+      type:                             toggle
+      label:                            PLUGIN_DETECT_ADBLOCK.GOOGLE_ANALYTICS
+      help:                             PLUGIN_DETECT_ADBLOCK.GOOGLE_ANALYTICS_HELP
+      highlight:                        1
+      default:                          1
+      options:
+        1:                              PLUGIN_ADMIN.ENABLED
+        0:                              PLUGIN_ADMIN.DISABLED
+      validate:
+        type:                           bool
+
+    message:
+      type:                             toggle
+      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.TITLE
+      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.HELP
+      highlight:                        1
+      default:                          1
+      options:
+        1:                              PLUGIN_ADMIN.ENABLED
+        0:                              PLUGIN_ADMIN.DISABLED
+      validate:
+        type:                           bool
+
+    displayone:
+      type:                             toggle
+      label:                            PLUGIN_DETECT_ADBLOCK.DISPLAY_ONE
+      help:                             PLUGIN_DETECT_ADBLOCK.DISPLAY_ONE_HELP
+      highlight:                        1
+      default:                          0
+      options:
+        1:                              PLUGIN_ADMIN.YES
+        0:                              PLUGIN_ADMIN.NO
+      validate:
+        type:                           bool

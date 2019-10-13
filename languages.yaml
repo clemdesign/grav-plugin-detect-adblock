@@ -1,0 +1,31 @@
+# English
+en:
+  PLUGIN_DETECT_ADBLOCK:
+    PLUGIN_STATUS: 'Plugin Status'
+    GOOGLE_ANALYTICS: 'Google Analytics'
+    GOOGLE_ANALYTICS_HELP: 'Track user Adblock status with Google Analytics'
+    DISPLAY_ONE: 'Display message only 1 times'
+    DISPLAY_ONE_HELP: 'When enabled, message will not appears for User during one day (use cookie)'
+    MESSAGE:
+      TITLE: 'Display Message'
+      HELP: 'Display a message to user in order to disable Adblock'
+      ADVISE:
+        USER_LINE1: 'This website website is made possible by displaying online <b>advertisements</b> to our visitors.'
+        USER_LINE2: 'Please consider supporting us by <b>disabling</b> your ad blocker.'
+        USER_LINE3: 'Thank you.'
+
+# French
+fr:
+  PLUGIN_DETECT_ADBLOCK:
+    PLUGIN_STATUS: 'Status du plugin'
+    GOOGLE_ANALYTICS: 'Google Analytics'
+    GOOGLE_ANALYTICS_HELP: 'Surveiller l''utilisation d''AdBlock des utilisateurs avec Google Analytics'
+    DISPLAY_ONE: 'Afficher message seulement 1 fois'
+    DISPLAY_ONE_HELP: 'Lorsque activé, le message ne sera plus réaffiché pendant 1 jour (utilise les cookies)'
+    MESSAGE:
+      TITLE: 'Afficher message'
+      HELP: 'Afficher un message à l''utilisateur afin de désactiver AdBlock'
+      ADVISE:
+        USER_LINE1: 'Ce site web est possible grâce à la <b>publicité</b>.'
+        USER_LINE2: 'Soutenez-nous en  <b>désactivant</b> votre bloqueur de publicité.'
+        USER_LINE3: 'Merci.'
