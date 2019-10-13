@@ -79,11 +79,11 @@ class DetectAdBlockPlugin extends Plugin
     }
 
     // Manage Message
-    if($this->config->get('plugins.detect-adblock.message')){
+    if($this->config->get('plugins.detect-adblock.message.enabled')){
 
-      $displayOnlyOneTimes  = $this->config->get('plugins.detect-adblock.displayone');
-      $blockVisitEnabled    = $this->config->get('plugins.detect-adblock.blockvisit');
-      $blockVisitId         = $this->config->get('plugins.detect-adblock.idtoremove');
+      $displayOnlyOneTimes  = $this->config->get('plugins.detect-adblock.message.displayone');
+      $blockVisitEnabled    = $this->config->get('plugins.detect-adblock.blockvisit.enabled');
+      $blockVisitId         = $this->config->get('plugins.detect-adblock.blockvisit.idtoremove');
 
       $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){';
 

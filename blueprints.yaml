@@ -38,10 +38,10 @@ form:
       validate:
         type:                           bool
 
-    message:
+    message.enabled:
       type:                             toggle
-      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.TITLE
-      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.HELP
+      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.ENABLED
+      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.ENABLED_HELP
       highlight:                        1
       default:                          1
       options:
@@ -50,10 +50,10 @@ form:
       validate:
         type:                           bool
 
-    displayone:
+    message.displayone:
       type:                             toggle
-      label:                            PLUGIN_DETECT_ADBLOCK.DISPLAY_ONE
-      help:                             PLUGIN_DETECT_ADBLOCK.DISPLAY_ONE_HELP
+      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.DISPLAY_ONE
+      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.DISPLAY_ONE_HELP
       highlight:                        1
       default:                          0
       options:
@@ -62,7 +62,7 @@ form:
       validate:
         type:                           bool
 
-    blockvisit:
+    blockvisit.enabled:
       type:                             toggle
       label:                            PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE
       help:                             PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE_HELP
@@ -74,12 +74,12 @@ form:
       validate:
         type:                           bool
 
-    idtoremove:
+    blockvisit.idtoremove:
       type: text
       label: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL
       help: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_HELP
       size: small
-      placeholder: 'sb-site'
+      placeholder: 'body'
       validate:
           pattern: '([^"]*?)'
           message: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_VALIDATION
