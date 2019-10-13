@@ -8,7 +8,7 @@
   z-index: 100;
 }
 
-.detect-adblock .abc-message {
+.detect-adblock .dab-message {
   position: relative;
   width: 60%;
   margin: auto;
@@ -19,7 +19,7 @@
   border-radius: 1rem;
 }
 
-.detect-adblock .abc-message .abc-buttons {
+.detect-adblock .dab-message .dab-buttons {
   position: absolute;
   width: 100px;
   height: 48px;
@@ -29,6 +29,6 @@
   font-size: 2rem;
 }
 
-.detect-adblock .abc-message .abc-content {
+.detect-adblock .dab-message .dab-content {
   font-size: 1.5rem;
 }

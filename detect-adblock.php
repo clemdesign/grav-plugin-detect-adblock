@@ -1,6 +1,6 @@
 <?php
 /**
- * Allow to control adblock
+ * Allow to detect and manage AdBlock
  * Date: 12/10/2019
  * Time: 11:34
  *
@@ -22,9 +22,9 @@ use RocketTheme\Toolbox\Event\Event;
 
 
 /**
- * AdblockControlPlugin.
+ * DetectAdblockPlugin.
  *
- * This plugin enables to use AdblockControlPlugin inside a document
+ * This plugin enables to use DetectAdblockPlugin inside a document
  * to be rendered by Grav.
  */
 class DetectAdBlockPlugin extends Plugin
@@ -70,7 +70,7 @@ class DetectAdBlockPlugin extends Plugin
     $this->grav['assets']->add('plugin://detect-adblock/assets/js/ads.js', null, true, null, 'bottom');
 
     // Add Detection JS
-    $inlineJs = 'var abDetected = (document.getElementById(\'AdBloCKcoNTRol\')!==null);';
+    $inlineJs = 'var abDetected = (document.getElementById(\'DeTEctAdBloCK\')!==null);';
 
     // Add Analytics JS
     if($this->config->get('plugins.detect-adblock.ganalytics')){
@@ -78,9 +78,26 @@ class DetectAdBlockPlugin extends Plugin
       $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',abDetected,undefined,undefined,true]);}';
     }
 
-    // Add Message
+    // Manage Message
     if($this->config->get('plugins.detect-adblock.message')){
-      $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+
+      //Manage display only one times
+      $displayOnlyOneTimes = $this->config->get('plugins.detect-adblock.displayone');
+      if($displayOnlyOneTimes){
+        $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
+        $inlineJs .= 'if((document.getElementById(\'detect-adblock\')!==null) && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+      } else {
+        $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+      }
+
+      //Function to hide message
+      $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock\').style.display=\'none\';';
+      if($displayOnlyOneTimes) {
+        $inlineJs .= 'setCookie("detect-adblock","true",1)';
+      }
+      $inlineJs .= '}';
+
+      // Add CSS
       $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
     }
 

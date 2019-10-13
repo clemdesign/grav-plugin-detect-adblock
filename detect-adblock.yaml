@@ -1,6 +1,7 @@
 
 # Global configurations
 
-enabled: true       # Enable the plugin
-ganalytics: true    # Enable Google Analytics tracking
-message: true       # Enable message displaying
+enabled: true           # Set to true to enabled the plugin
+ganalytics: true        # Set to true to manage Google Analytics tracking
+message: true           # Set to true to display message
+displayone: true        # Set to true to display only 1 times
