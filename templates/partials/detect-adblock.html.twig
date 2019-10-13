@@ -1,10 +1,14 @@
+{% set adblock_message_line1 = 'PLUGIN_DETECT_ADBLOCK.MESSAGE.'~adblock_message_type~'.USER_LINE1' %}
+{% set adblock_message_line2 = 'PLUGIN_DETECT_ADBLOCK.MESSAGE.'~adblock_message_type~'.USER_LINE2' %}
+{% set adblock_message_line3 = 'PLUGIN_DETECT_ADBLOCK.MESSAGE.'~adblock_message_type~'.USER_LINE3' %}
+
 <div class="detect-adblock" id="detect-adblock" style="display: none;">
   <div class="dab-message">
     <div class="dab-buttons"><a href="#" onclick="dabHide()"><i class="fa fa-times" aria-hidden="true"></i></a></div>
     <div class="dab-content">
-      <p>{{ 'PLUGIN_DETECT_ADBLOCK.MESSAGE.ADVISE.USER_LINE1'|t }}</p>
-      <p>{{ 'PLUGIN_DETECT_ADBLOCK.MESSAGE.ADVISE.USER_LINE2'|t }}</p>
-      <p>{{ 'PLUGIN_DETECT_ADBLOCK.MESSAGE.ADVISE.USER_LINE3'|t }}</p>
+      <p>{{ adblock_message_line1|t }}</p>
+      <p>{{ adblock_message_line2|t }}</p>
+      <p>{{ adblock_message_line3|t }}</p>
     </div>
   </div>
 </div>

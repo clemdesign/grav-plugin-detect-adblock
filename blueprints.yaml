@@ -61,3 +61,25 @@ form:
         0:                              PLUGIN_ADMIN.NO
       validate:
         type:                           bool
+
+    blockvisit:
+      type:                             toggle
+      label:                            PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE
+      help:                             PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE_HELP
+      highlight:                        0
+      default:                          0
+      options:
+        1:                              PLUGIN_ADMIN.ENABLED
+        0:                              PLUGIN_ADMIN.DISABLED
+      validate:
+        type:                           bool
+
+    idtoremove:
+      type: text
+      label: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL
+      help: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_HELP
+      size: small
+      placeholder: 'sb-site'
+      validate:
+          pattern: '([^"]*?)'
+          message: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_VALIDATION

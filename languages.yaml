@@ -13,6 +13,16 @@ en:
         USER_LINE1: 'This website website is made possible by displaying online <b>advertisements</b> to our visitors.'
         USER_LINE2: 'Please consider supporting us by <b>disabling</b> your ad blocker.'
         USER_LINE3: 'Thank you.'
+      BLOCK:
+        USER_LINE1: 'This website website is made possible by displaying online <b>advertisements</b> to our visitors.'
+        USER_LINE2: 'You shall <b>disable</b> your ad blocker to follow on website.'
+        USER_LINE3: 'Please reload page after that, thank you.'
+    BLOCK_VISITE:
+      ENABLE: 'Block Visit'
+      ENABLE_HELP: 'Block user to follow visit on website'
+      ID_LABEL: 'DOM Id to remove'
+      ID_LABEL_HELP: 'If defined, this plugin remove the DOM item from page.'
+      ID_LABEL_VALIDATION: 'ID not valid.'
 
 # French
 fr:
@@ -27,5 +37,15 @@ fr:
       HELP: 'Afficher un message à l''utilisateur afin de désactiver AdBlock'
       ADVISE:
         USER_LINE1: 'Ce site web est possible grâce à la <b>publicité</b>.'
-        USER_LINE2: 'Soutenez-nous en  <b>désactivant</b> votre bloqueur de publicité.'
+        USER_LINE2: 'Soutenez-nous en <b>désactivant</b> votre bloqueur de publicité.'
         USER_LINE3: 'Merci.'
+      BLOCK:
+        USER_LINE1: 'Ce site web est possible grâce à la <b>publicité</b>.'
+        USER_LINE2: 'Vous devez <b>désactiver</b> votre bloqueur de publicités pour continuer sur notre site web.'
+        USER_LINE3: 'Rechargez la page aprés cette action s''il vous plait, merci.'
+    BLOCK_VISITE:
+      ENABLE: 'Bloquer la visite'
+      ENABLE_HELP: 'Empêche l''utilisateur à poursuivre la visite.'
+      ID_LABEL: 'ID de l''élément DOM à supprimer'
+      ID_LABEL_HELP: 'Si définit, le plugin supprimer l''élément DOM de la page web.'
+      ID_LABEL_VALIDATION: 'ID incorrect.'

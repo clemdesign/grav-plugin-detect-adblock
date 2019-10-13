@@ -5,3 +5,5 @@ enabled: true           # Set to true to enabled the plugin
 ganalytics: true        # Set to true to manage Google Analytics tracking
 message: true           # Set to true to display message
 displayone: true        # Set to true to display only 1 times
+blockvisit: false       # Set to true to block visit on wbesite if AdBlock is enabled
+idtoremove: 'body'      # Id to remove if visit is blocked and AdBlock enabled.

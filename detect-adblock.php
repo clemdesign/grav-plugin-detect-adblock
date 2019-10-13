@@ -16,9 +16,6 @@ namespace Grav\Plugin;
 
 
 use Grav\Common\Plugin;
-use Grav\Common\Page\Page;
-use Grav\Common\Twig\Twig;
-use RocketTheme\Toolbox\Event\Event;
 
 
 /**
@@ -29,6 +26,8 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class DetectAdBlockPlugin extends Plugin
 {
+
+  protected $adblockMessageType = 'ADVISE';
 
   /**
    * @return array
@@ -44,8 +43,8 @@ class DetectAdBlockPlugin extends Plugin
   {
 
     return [
-      'onPluginsInitialized' => ['onPluginsInitialized', 0],
-      'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
+      'onPluginsInitialized'  => ['onPluginsInitialized', 0],
+      'onTwigTemplatePaths'   => ['onTwigTemplatePaths', 0]
     ];
   }
 
@@ -57,7 +56,8 @@ class DetectAdBlockPlugin extends Plugin
 
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
-        'onPageInitialized'     => ['onPageInitialized', 0]
+        'onPageInitialized'     => ['onPageInitialized', -1],
+        'onPageContentRaw'      => ['onPageContentRaw', 0]
       ]);
     }
   }
@@ -65,7 +65,7 @@ class DetectAdBlockPlugin extends Plugin
   /**
    * Function called on Grav Page initialized
    */
-  public function onPageInitialized(Event $e)
+  public function onPageInitialized()
   {
     $this->grav['assets']->add('plugin://detect-adblock/assets/js/ads.js', null, true, null, 'bottom');
 
@@ -81,11 +81,14 @@ class DetectAdBlockPlugin extends Plugin
     // Manage Message
     if($this->config->get('plugins.detect-adblock.message')){
 
+      $displayOnlyOneTimes  = $this->config->get('plugins.detect-adblock.displayone');
+      $blockVisitEnabled    = $this->config->get('plugins.detect-adblock.blockvisit');
+      $blockVisitId         = $this->config->get('plugins.detect-adblock.idtoremove');
+
       $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){';
 
       //Manage display only one times
-      $displayOnlyOneTimes = $this->config->get('plugins.detect-adblock.displayone');
-      if($displayOnlyOneTimes){
+      if($displayOnlyOneTimes && (!$blockVisitEnabled)){
         $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
         $inlineJs .= 'if(abDetected && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
       } else {
@@ -93,11 +96,23 @@ class DetectAdBlockPlugin extends Plugin
       }
 
       //Function to hide message
-      $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock\').style.display=\'none\';';
-      if($displayOnlyOneTimes) {
-        $inlineJs .= 'setCookie("detect-adblock","true",1)';
+      if(!$blockVisitEnabled){
+        $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock\').style.display=\'none\';';
+        if($displayOnlyOneTimes) {
+          $inlineJs .= 'setCookie("detect-adblock","true",1)';
+        }
+        $inlineJs .= '}';
+      } else {
+        $inlineJs .= 'function dabHide(){}';
       }
-      $inlineJs .= '}}';
+
+      //Block Visit operation
+      if($blockVisitEnabled){
+        $inlineJs .= 'if((document.getElementById(\''.$blockVisitId.'\')!==null) && abDetected){document.getElementById(\''.$blockVisitId.'\').remove()}';
+        $this->adblockMessageType = 'BLOCK';
+      }
+
+      $inlineJs .= '}';
 
       // Add CSS
       $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
@@ -112,5 +127,13 @@ class DetectAdBlockPlugin extends Plugin
   public function onTwigTemplatePaths()
   {
     $this->grav['twig']->twig_paths[] = __DIR__.'/templates';
+  }
+
+  /**
+   * Add content after page content was read into the system.
+   */
+  public function onPageContentRaw()
+  {
+    $this->grav['twig']->twig_vars['adblock_message_type'] = $this->adblockMessageType;
   }
 }
