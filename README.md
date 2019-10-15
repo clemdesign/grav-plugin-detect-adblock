@@ -123,6 +123,9 @@ Notify to Google Analytics the blocking user status works if:
 - `ga` object is defined OR
 - `_gap` is defined
 
+To get statistics in Google Analytics, refer to this page:  
+[https://support.google.com/analytics/answer/1033068?hl=en](https://support.google.com/analytics/answer/1033068?hl=en)
+
 ### 5. Block visit to user
 
 This plugin allow you to force user to disable ad blocker.  
