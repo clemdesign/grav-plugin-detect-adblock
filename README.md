@@ -33,7 +33,7 @@ You should now have all the plugin files under
 
 ### 1. Code configuration
 
-In your [theme](https://learn.getgrav.org/16/themes/theme-basics), you shall integrate the following snippet:
+In your [theme](https://learn.getgrav.org/16/themes/theme-basics), add the following snippet:
 
 ```twig
 {% include 'partials/detect-adblock.html.twig' %}
@@ -55,6 +55,7 @@ ganalytics: true        # Set to true to manage Google Analytics tracking
 message:
   enabled: true         # Set to true to display message
   displayone: true      # Set to true to display only 1 times
+  page_filter: ''       # List of pages where message shall be displayed.
 blockvisit:
   enabled: false        # Set to true to block visit on website if AdBlock is enabled
   idtoremove: 'body'    # DOM Id to remove when visit is blocked.
@@ -62,27 +63,65 @@ blockvisit:
 
 ### 3. Overwriting the displayed message
 
+#### 3.1. Overwriting the template
+
 The message displayed to user is managed by the template `partials/detect-adblock.html.twig`.  
 You can overwrite this template in your theme, but be careful to:
 
 - define the ` id="detect-adblock"` for box wrapper of your message.
 - add a close button with this action ` onclick="dabHide()"`.
+- add the script to include `/user/plugins/detect-adblock/assets/js/ads.js`
+
+#### 3.2. Overwriting the message lines
+
+You have possibility to overwrite only message lines on your theme.  
+In `languages.yaml`, add the following lines:
+
+```yaml
+en:
+  PLUGIN_DETECT_ADBLOCK:
+    MESSAGE:
+      ADVISE:
+        USER_LINE1: 'Your message for Advise line 1'
+        USER_LINE2: 'Your message for Advise line 2'
+        USER_LINE3: 'Your message for Advise line 3'
+      BLOCK:
+        USER_LINE1: 'Your message for BlockVisit line 1'
+        USER_LINE2: 'Your message for BlockVisit line 2'
+        USER_LINE3: 'Your message for BlockVisit line 3'
+fr:
+  ...
+```
+
+#### 3.3. Overwriting the css style
+
+You have possibility to overwrite the style of messsage.
+For that, you have the following CSS tag:
+
+```
+.detect-adblock: the global message wrapper, to manage background of message.
+.detect-adblock .dab-message: the message container, to manage main message style.
+.detect-adblock .dab-message .dab-buttons: the message buttons container.
+.detect-adblock .dab-message .dab-content: the message content container.
+```
+
 
 ### 4. Google Analytics
 
-This plugin doesn't manage the Google Analytics integration. You shall do it in your theme or using a plugin (See chapter Pre-requisites).  
+This plugin doesn't embed the Google Analytics library/code. You shall do it in your theme or using a plugin (See chapter Pre-requisites).  
 
 Notify to Google Analytics the blocking user status works if:
+- the parameter `ganalytics` is enabled.
 - `ga` object is defined OR
 - `_gap` is defined
 
 ### 5. Block visit to user
 
-This plugin allow you to force User to disable ad blocker.  
+This plugin allow you to force user to disable ad blocker.  
 It is an intrusive feature.
 
-In this way, to block user to read content by Code Inspector of the navigator, this plugin allow you to delete content if ad blocker is detected.
-
+In this way, to block user to read content by *Code Inspector* developer tool of the navigator, this plugin allow you to delete content if ad blocker is detected.  
+You shall enable the parameter `blockvisit.enabled` and define the `blockvisit.idtoremove` for that.
 
 # Contributing
 

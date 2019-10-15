@@ -5,7 +5,8 @@ icon:                                   ban
 author:
   name:                                 clemdesign
   email:                                contact@clemdesign.fr
-homepage:                               https://github.com/clemdesign/grav-plugin-adsense2
+  url:                                  https://www.clemdesign.fr
+homepage:                               https://github.com/clemdesign/grav-plugin-detect-adblock
 keywords:                               [adblock, grav, extension, plugin, google, antiadblock, analytics]
 docs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/blob/master/README.md
 bugs:                                   https://github.com/clemdesign/grav-plugin-detect-adblock/issues
@@ -61,6 +62,15 @@ form:
         0:                              PLUGIN_ADMIN.NO
       validate:
         type:                           bool
+
+    message.page_filter:
+      type:                     selectize
+      size:                     large
+      label:                    PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.LABEL
+      placeholder:              PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.PH
+      help:                     PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.HELP
+      validate:
+        type:                   commalist
 
     blockvisit.enabled:
       type:                             toggle

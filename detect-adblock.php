@@ -43,8 +43,8 @@ class DetectAdBlockPlugin extends Plugin
   {
 
     return [
-      'onPluginsInitialized'  => ['onPluginsInitialized', 0],
-      'onTwigTemplatePaths'   => ['onTwigTemplatePaths', 0]
+      'onPluginsInitialized' => ['onPluginsInitialized', 0],
+      'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
     ];
   }
 
@@ -56,8 +56,8 @@ class DetectAdBlockPlugin extends Plugin
 
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
-        'onPageInitialized'     => ['onPageInitialized', -1],
-        'onPageContentRaw'      => ['onPageContentRaw', 0]
+        'onPageInitialized' => ['onPageInitialized', -1],
+        'onPageContentRaw' => ['onPageContentRaw', 0]
       ]);
     }
   }
@@ -67,55 +67,71 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onPageInitialized()
   {
-    $this->grav['assets']->add('plugin://detect-adblock/assets/js/ads.js', null, true, null, 'bottom');
-
     // Add Detection JS
     $inlineJs = 'var abDetected = !(document.getElementById(\'DeTEctAdBloCK\')!==null);';
 
     // Add Analytics JS
-    if($this->config->get('plugins.detect-adblock.ganalytics')){
+    if ($this->config->get('plugins.detect-adblock.ganalytics')) {
       $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',abDetected,{\'nonInteraction\':1});}';
       $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',abDetected,undefined,undefined,true]);}';
     }
 
     // Manage Message
-    if($this->config->get('plugins.detect-adblock.message.enabled')){
+    if ($this->config->get('plugins.detect-adblock.message.enabled')) {
 
-      $displayOnlyOneTimes  = $this->config->get('plugins.detect-adblock.message.displayone');
-      $blockVisitEnabled    = $this->config->get('plugins.detect-adblock.blockvisit.enabled');
-      $blockVisitId         = $this->config->get('plugins.detect-adblock.blockvisit.idtoremove');
 
-      $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){';
+      //Manage Page Filter
+      $filter_items = $this->config->get('plugins.detect-adblock.message.page_filter');
+      $url = strtolower($this->cleanUrl($this->grav["uri"]->url()));
 
-      //Manage display only one times
-      if($displayOnlyOneTimes && (!$blockVisitEnabled)){
-        $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
-        $inlineJs .= 'if(abDetected && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
-      } else {
-        $inlineJs .= 'if(abDetected){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
-      }
-
-      //Function to hide message
-      if(!$blockVisitEnabled){
-        $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock\').style.display=\'none\';';
-        if($displayOnlyOneTimes) {
-          $inlineJs .= 'setCookie("detect-adblock","true",1)';
+      $bDispMessage = false;
+      if (is_array($filter_items) && (count($filter_items) > 0)) {
+        if (!empty($url)) {
+          //Look for url in filter list
+          if (in_array($url, $filter_items)) $bDispMessage = true;
         }
+      }
+
+      if($bDispMessage) {
+
+        $displayOnlyOneTimes = $this->config->get('plugins.detect-adblock.message.displayone');
+        $blockVisitEnabled = $this->config->get('plugins.detect-adblock.blockvisit.enabled');
+        $blockVisitId = $this->config->get('plugins.detect-adblock.blockvisit.idtoremove');
+
+        $inlineJs .= 'if(document.getElementById(\'detect-adblock\')!==null){';
+
+        //Manage display only one times
+        if ($displayOnlyOneTimes && (!$blockVisitEnabled)) {
+          $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
+          $inlineJs .= 'if(abDetected && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+        } else {
+          $inlineJs .= 'if(abDetected){document.getElementById(\'detect-adblock\').style.display=\'block\';}';
+        }
+
+        //Function to hide message
+        if (!$blockVisitEnabled) {
+          $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock\').style.display=\'none\';';
+          if ($displayOnlyOneTimes) {
+            $inlineJs .= 'setCookie("detect-adblock","true",1)';
+          }
+          $inlineJs .= '}';
+        } else {
+          $inlineJs .= 'function dabHide(){}';
+        }
+
+        //Block Visit operation
+        if ($blockVisitEnabled) {
+          $inlineJs .= 'if((document.getElementById(\'' . $blockVisitId . '\')!==null) && abDetected){document.getElementById(\'' . $blockVisitId . '\').remove()}';
+          $this->adblockMessageType = 'BLOCK';
+        }
+
         $inlineJs .= '}';
-      } else {
-        $inlineJs .= 'function dabHide(){}';
+
+        // Add CSS
+        $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
+
       }
 
-      //Block Visit operation
-      if($blockVisitEnabled){
-        $inlineJs .= 'if((document.getElementById(\''.$blockVisitId.'\')!==null) && abDetected){document.getElementById(\''.$blockVisitId.'\').remove()}';
-        $this->adblockMessageType = 'BLOCK';
-      }
-
-      $inlineJs .= '}';
-
-      // Add CSS
-      $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
     }
 
     $this->grav['assets']->addInlineJs($inlineJs, null, 'bottom');
@@ -126,7 +142,7 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onTwigTemplatePaths()
   {
-    $this->grav['twig']->twig_paths[] = __DIR__.'/templates';
+    $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
   }
 
   /**
@@ -135,5 +151,18 @@ class DetectAdBlockPlugin extends Plugin
   public function onPageContentRaw()
   {
     $this->grav['twig']->twig_vars['adblock_message_type'] = $this->adblockMessageType;
+  }
+
+  /**
+   * Clean URL
+   * @param $url
+   * @return bool|string
+   */
+  private function cleanUrl($url)
+  {
+    if (substr($url, 0, 1) == "/") {
+      return substr($url, 1, strlen($url) - 1);
+    }
+    return $url;
   }
 }

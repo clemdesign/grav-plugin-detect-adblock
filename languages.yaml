@@ -9,6 +9,10 @@ en:
       ENABLED_HELP: 'Display a message to user in order to disable Adblock'
       DISPLAY_ONE: 'Display message only 1 times'
       DISPLAY_ONE_HELP: 'When enabled, message will not appears for User during one day (use cookie)'
+      PAGE_FILTER:
+        LABEL:  'Display message for pages'
+        PH: 'blog, portfolio'
+        HELP: 'List of site page where message shall be displayed. If empty, will be displayed for all pages'
       ADVISE:
         USER_LINE1: 'This website website is made possible by displaying online <b>advertisements</b> to our visitors.'
         USER_LINE2: 'Please consider supporting us by <b>disabling</b> your ad blocker.'
@@ -35,6 +39,10 @@ fr:
       ENABLED_HELP: 'Afficher un message à l''utilisateur afin de désactiver AdBlock'
       DISPLAY_ONE: 'Afficher message seulement 1 fois'
       DISPLAY_ONE_HELP: 'Lorsque activé, le message ne sera plus réaffiché pendant 1 jour (utilise les cookies)'
+      PAGE_FILTER:
+        LABEL:  'Afficher message pour les pages'
+        PH: 'blog, portfolio'
+        HELP: 'Liste des pages du site où le message sera affiché. Si vide, le message sera affiché sur toutes les pages.'
       ADVISE:
         USER_LINE1: 'Ce site web est possible grâce à la <b>publicité</b>.'
         USER_LINE2: 'Soutenez-nous en <b>désactivant</b> votre bloqueur de publicité.'
