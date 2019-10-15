@@ -98,11 +98,19 @@ fr:
 You have possibility to overwrite the style of messsage.
 For that, you have the following CSS tag:
 
-```
-.detect-adblock: the global message wrapper, to manage background of message.
-.detect-adblock .dab-message: the message container, to manage main message style.
-.detect-adblock .dab-message .dab-buttons: the message buttons container.
-.detect-adblock .dab-message .dab-content: the message content container.
+```css
+.detect-adblock {
+    /* The global message wrapper, to manage background of message. */
+}
+.detect-adblock .dab-message {
+    /* The message container, to manage main message style. */
+ }
+.detect-adblock .dab-message .dab-buttons {
+    /* The message buttons container. */
+}
+.detect-adblock .dab-message .dab-content {
+    /* The message content container. */
+}
 ```
 
 
@@ -131,7 +139,7 @@ If you think any implementation are just not the best, feel free to submit ideas
 
 This plugin is based on [Detect AdBlock](https://www.detectadblock.com/) solution.
 
-# Licenses
+# License
 
 Copyright (c) 2019 [clemdesign](https://github.com/clemdesign).
 
