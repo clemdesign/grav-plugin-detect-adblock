@@ -72,8 +72,8 @@ class DetectAdBlockPlugin extends Plugin
 
     // Add Analytics JS
     if ($this->config->get('plugins.detect-adblock.ganalytics')) {
-      $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',abDetected,{\'nonInteraction\':1});}';
-      $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',abDetected,undefined,undefined,true]);}';
+      $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',(abDetected?\'Yes\':\'No\'),{\'nonInteraction\':1});}';
+      $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',(abDetected?\'Yes\':\'No\'),undefined,undefined,true]);}';
     }
 
     // Manage Message
