@@ -7,6 +7,12 @@ message:
   enabled: true         # Set to true to display message
   displayone: true      # Set to true to display only 1 times
   page_filter: ''       # List of pages where message shall be displayed.
+  content: |
+      This website is made possible by displaying online **advertisements** to our visitors.
+
+      Please consider supporting us by **disabling** your ad blocker.
+
+      Thank you.
 blockvisit:
   enabled: false        # Set to true to block visit on website if AdBlock is enabled
   idtoremove: 'body'    # DOM Id to remove when visit is blocked.

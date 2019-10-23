@@ -93,3 +93,14 @@ form:
       validate:
           pattern: '([^"]*?)'
           message: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_VALIDATION
+
+    message.content:
+      type: editor
+      label: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT
+      help: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT_HELP
+      codemirror:
+        mode: 'gfm'
+        indentWithTabs: false
+        lineNumbers: false
+        styleActiveLine: true
+        resizer: true

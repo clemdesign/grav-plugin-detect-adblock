@@ -27,8 +27,6 @@ use Grav\Common\Plugin;
 class DetectAdBlockPlugin extends Plugin
 {
 
-  protected $adblockMessageType = 'ADVISE';
-
   /**
    * @return array
    *
@@ -56,8 +54,7 @@ class DetectAdBlockPlugin extends Plugin
 
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
-        'onPageInitialized' => ['onPageInitialized', -1],
-        'onPageContentRaw' => ['onPageContentRaw', 0]
+        'onPageInitialized' => ['onPageInitialized', -1]
       ]);
     }
   }
@@ -122,7 +119,6 @@ class DetectAdBlockPlugin extends Plugin
         //Block Visit operation
         if ($blockVisitEnabled) {
           $inlineJs .= 'if((document.getElementById(\'' . $blockVisitId . '\')!==null) && abDetected){document.getElementById(\'' . $blockVisitId . '\').remove()}';
-          $this->adblockMessageType = 'BLOCK';
         }
 
         $inlineJs .= '}';
@@ -143,14 +139,6 @@ class DetectAdBlockPlugin extends Plugin
   public function onTwigTemplatePaths()
   {
     $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
-  }
-
-  /**
-   * Add content after page content was read into the system.
-   */
-  public function onPageContentRaw()
-  {
-    $this->grav['twig']->twig_vars['adblock_message_type'] = $this->adblockMessageType;
   }
 
   /**

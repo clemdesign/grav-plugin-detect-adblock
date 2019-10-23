@@ -56,12 +56,13 @@ message:
   enabled: true         # Set to true to display message
   displayone: true      # Set to true to display only 1 times
   page_filter: ''       # List of pages where message shall be displayed.
+  content:              # Your message content in markdown format
 blockvisit:
   enabled: false        # Set to true to block visit on website if AdBlock is enabled
   idtoremove: 'body'    # DOM Id to remove when visit is blocked.
 ```
 
-### 3. Overwriting the displayed message
+### 3. Overwriting the message style
 
 #### 3.1. Overwriting the template
 
@@ -72,28 +73,7 @@ You can overwrite this template in your theme, but be careful to:
 - add a close button with this action ` onclick="dabHide()"`.
 - add the script to include `/user/plugins/detect-adblock/assets/js/ads.js`
 
-#### 3.2. Overwriting the message lines
-
-You have possibility to overwrite only message lines on your theme.  
-In `languages.yaml`, add the following lines:
-
-```yaml
-en:
-  PLUGIN_DETECT_ADBLOCK:
-    MESSAGE:
-      ADVISE:
-        USER_LINE1: 'Your message for Advise line 1'
-        USER_LINE2: 'Your message for Advise line 2'
-        USER_LINE3: 'Your message for Advise line 3'
-      BLOCK:
-        USER_LINE1: 'Your message for BlockVisit line 1'
-        USER_LINE2: 'Your message for BlockVisit line 2'
-        USER_LINE3: 'Your message for BlockVisit line 3'
-fr:
-  ...
-```
-
-#### 3.3. Overwriting the css style
+#### 3.2. Overwriting the css style
 
 You have possibility to overwrite the style of messsage.
 For that, you have the following CSS tag:
