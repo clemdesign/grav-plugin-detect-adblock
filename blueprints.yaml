@@ -96,11 +96,15 @@ form:
 
     message.content:
       type: editor
-      label: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT
-      help: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT_HELP
+      label: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.LABEL
+      help: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.HELP
       codemirror:
         mode: 'gfm'
         indentWithTabs: false
         lineNumbers: false
         styleActiveLine: true
         resizer: true
+
+    message.content.desc:
+      type: section
+      title: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.DESC

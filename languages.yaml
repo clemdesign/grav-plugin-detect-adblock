@@ -9,12 +9,14 @@ en:
       ENABLED_HELP: 'Display a message to user in order to disable Adblock'
       DISPLAY_ONE: 'Display message only 1 times'
       DISPLAY_ONE_HELP: 'When enabled, message will not appears for User during one day (use cookie)'
-      CONTENT:  'Message to display:'
-      CONTENT_HELP: 'Write here the message that you want to display with Detect Adblock event is raised.'
+      CONTENT:
+        LABEL:  'Message to display:'
+        HELP:   'Write here the message that you want to display with Detect Adblock event is raised.'
+        DESC:   'To integrate language translation, split content with the tag ---{language key}---.'
       PAGE_FILTER:
         LABEL:  'Display message for pages'
         PH: 'blog, portfolio'
-        HELP: 'List of site page where message shall be displayed. If empty, will be displayed for all pages'
+        HELP: 'List of site page where message shall be displayed. If empty, will be displayed for all pages.'
     BLOCK_VISITE:
       ENABLE: 'Block Visit'
       ENABLE_HELP: 'Block user to follow visit on website'
@@ -33,8 +35,10 @@ fr:
       ENABLED_HELP: 'Afficher un message à l''utilisateur afin de désactiver AdBlock'
       DISPLAY_ONE: 'Afficher message seulement 1 fois'
       DISPLAY_ONE_HELP: 'Lorsque activé, le message ne sera plus réaffiché pendant 1 jour (utilise les cookies)'
-      CONTENT:  'Message à afficher :'
-      CONTENT_HELP: 'Ecrire ici le message à afficher quand Detect Adblock lève un événement.'
+      CONTENT:
+        LABEL:  'Message à afficher :'
+        HELP:   'Ecrire ici le message à afficher quand Detect Adblock lève un événement.'
+        DESC:   'Pour intégrer les traductions, séparez le contenu avec le tag ---{code du language}---.'
       PAGE_FILTER:
         LABEL:  'Afficher message pour les pages'
         PH: 'blog, portfolio'

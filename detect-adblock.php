@@ -54,7 +54,8 @@ class DetectAdBlockPlugin extends Plugin
 
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
-        'onPageInitialized' => ['onPageInitialized', -1]
+        'onPageInitialized' => ['onPageInitialized', -1],
+        'onPageContentRaw' => ['onPageContentRaw', 0]
       ]);
     }
   }
@@ -139,6 +140,38 @@ class DetectAdBlockPlugin extends Plugin
   public function onTwigTemplatePaths()
   {
     $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+  }
+
+  /**
+   * Add content after page content was read into the system.
+   */
+  public function onPageContentRaw()
+  {
+    $message_raw = $this->config->get('plugins.detect-adblock.message.content');
+
+    //Extract message according current language
+    $message_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+    $key='all';
+    $message_array = array();
+    foreach($message_array_raw as $value){
+      $nbChar = strlen($value);
+      if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
+        $key = $value;
+      } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
+        $message_array[$key] = trim($value," \t\n\r\0\x0B");
+      }
+    }
+
+    $lang = $this->grav['language']->getLanguage();
+    $message = 'Bad configuration of Message to Display in Plugin parameters.';
+    if(isset($message_array[$lang])) {
+      $message = $message_array[$lang];
+    } elseif(isset($message_array['all'])) {
+      $message = $message_array['all'];
+    }
+
+    $this->grav['twig']->twig_vars['adblock_message_content'] = $message;
   }
 
   /**

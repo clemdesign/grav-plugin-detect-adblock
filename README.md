@@ -93,8 +93,29 @@ For that, you have the following CSS tag:
 }
 ```
 
+### 4. Multi-language of message
 
-### 4. Google Analytics
+Plugin allow you to define a multi-language message in plugin configuration page.
+
+The displayed message use the parameter `message.content`.
+
+To define translation of your message, split the content with the tag `---{languge key}---`.
+
+The first block is considered as default language.
+
+For instance:
+
+```md
+Default language of your message
+---fr---
+Message in French
+---es---
+Message in Spanish
+---de---
+Message in German
+```
+
+### 5. Google Analytics
 
 This plugin doesn't embed the Google Analytics library/code. You shall do it in your theme or using a plugin (See chapter Pre-requisites).  
 
@@ -106,7 +127,7 @@ Notify to Google Analytics the blocking user status works if:
 To get statistics in Google Analytics, refer to this page:  
 [https://support.google.com/analytics/answer/1033068?hl=en](https://support.google.com/analytics/answer/1033068?hl=en)
 
-### 5. Block visit to user
+### 6. Block visit to user
 
 This plugin allow you to force user to disable ad blocker.  
 It is an intrusive feature.
