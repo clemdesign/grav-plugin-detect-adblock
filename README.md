@@ -19,7 +19,17 @@ If you want to manage Google Analytics, you shall include the snippets in your s
   
 ## Installation
 
-For now, installation is possible only manually.
+Installing the `Detect AdBlock` plugin can be done in one of two way: GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file or GIT.
+
+### GPM Installation (Preferred)
+
+The simplest way to install this plugin is via the [Grav Package Manager (GPM](http://learn.getgrav.org/advanced/grav-gpm) through your system's Terminal (also called the command line). From the root of your Grav install type:
+
+    $ bin/gpm install detect-adblock
+
+This will install the `Detect AdBlock` plugin into your /user/plugins directory within Grav. Its files can be found under `user/plugins/detect-adblock`.
+
+### Manual Installation (Download)
 
 To install this plugin, just download the zip version of this repository and unzip it under `/your/site/grav/user/plugins`. Then, rename the folder to `detect-adblock`. You can find these files on [GitHub](https://github.com/clemdesign/grav-plugin-detect-adblock).
 
