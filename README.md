@@ -23,7 +23,7 @@ Installing the `Detect AdBlock` plugin can be done in one of two way: GPM (Grav 
 
 ### GPM Installation (Preferred)
 
-The simplest way to install this plugin is via the [Grav Package Manager (GPM](http://learn.getgrav.org/advanced/grav-gpm) through your system's Terminal (also called the command line). From the root of your Grav install type:
+The simplest way to install this plugin is via the [Grav Package Manager [GPM](http://learn.getgrav.org/advanced/grav-gpm) through your system's Terminal (also called the command line). From the root of your Grav install type:
 
     $ bin/gpm install detect-adblock
 
@@ -109,7 +109,7 @@ Plugin allow you to define a multi-language message in plugin configuration page
 
 The displayed message use the parameter `message.content`.
 
-To define translation of your message, split the content with the tag `---{languge key}---`.
+To define translation of your message, split the content with the tag `---{language key}---`.
 
 The first block is considered as default language.
 

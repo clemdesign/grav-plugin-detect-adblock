@@ -55,7 +55,8 @@ class DetectAdBlockPlugin extends Plugin
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
         'onPageInitialized' => ['onPageInitialized', -1],
-        'onPageContentRaw' => ['onPageContentRaw', 0]
+        'onPageContentRaw' => ['onPageContentRaw', 0],
+        'onPageContentProcessed' => ['onPageContentProcessed', 0]
       ]);
     }
   }
@@ -129,6 +130,16 @@ class DetectAdBlockPlugin extends Plugin
 
       }
 
+      // Block Content operation
+      // TODO: Activate by parameter
+      $inlineJs .= 'var dabContentBegin = document.getElementById("dab-content-begin");';
+      $inlineJs .= 'if(abDetected && dabContentBegin) {';
+      $inlineJs .= 'dabContentBegin.style.display=\'block\';';
+      $inlineJs .= 'dabDeleteDomElement(dabContentBegin.nextElementSibling, \'dab-content-end\', false);';
+      $inlineJs .= '}';
+
+      // Add common JS
+      $this->grav['assets']->addJs('plugin://detect-adblock/assets/js/detect-adblock.js');
     }
 
     $this->grav['assets']->addInlineJs($inlineJs, null, 'bottom');
@@ -172,6 +183,22 @@ class DetectAdBlockPlugin extends Plugin
     }
 
     $this->grav['twig']->twig_vars['adblock_message_content'] = $message;
+
+  }
+
+  /**
+   * Manage --dab-- tags
+   */
+  public function onPageContentProcessed(){
+
+    // Get content of template
+    $pageContent = $this->grav['twig']->processTemplate('partials/detect-adblock-page-content.html.twig');
+
+    // TODO: To activate with parameters
+    $content = $this->grav['page']->getRawContent();
+    $content = preg_replace("#<([a-z]{1,5})>---dab---</([a-z]{1,5})>#i",'<div id="dab-content-begin">'.$pageContent.'</div>', $content);
+    $content = preg_replace("#<([a-z]{1,5})>---/dab---</([a-z]{1,5})>#i",'<div id="dab-content-end"></div>', $content);
+    $this->grav['page']->setRawContent($content);
   }
 
   /**
