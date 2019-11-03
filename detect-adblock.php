@@ -57,12 +57,20 @@ class DetectAdBlockPlugin extends Plugin
   public function onPluginsInitialized()
   {
 
-    if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
-      $this->enable([
-        'onPageInitialized' => ['onPageInitialized', -1],
-        'onPageContentRaw' => ['onPageContentRaw', -1],
-        'onPageContentProcessed' => ['onPageContentProcessed', 0]
-      ]);
+    if ($this->config->get('plugins.detect-adblock.enabled')) {
+      // Non Admin operation
+      if(!$this->isAdmin()) {
+        $this->enable([
+          'onPageInitialized' => ['onPageInitialized', -1],
+          'onPageContentRaw' => ['onPageContentRaw', -1],
+          'onPageContentProcessed' => ['onPageContentProcessed', 0]
+        ]);
+        // Admin operation
+      } else {
+        $this->enable([
+          'onTwigSiteVariables' => ['onTwigSiteVariables', -10],
+        ]);
+      }
     }
   }
 
@@ -241,6 +249,16 @@ class DetectAdBlockPlugin extends Plugin
       $content = preg_replace("#<([a-z]{1,5})>---dab---</([a-z]{1,5})>#i", '<div id="dab-content-begin" style="display:none;">' . $pageContent . '</div>', $content);
       $content = preg_replace("#<([a-z]{1,5})>---/dab---</([a-z]{1,5})>#i", '<div id="dab-content-end"></div>', $content);
       $this->grav['page']->setRawContent($content);
+    }
+  }
+
+  /**
+   * Manage Admin operation
+   */
+  public function onTwigSiteVariables(){
+    // Add parameter to add button
+    if($this->config->get('plugins.detect-adblock.inside.blockreading.add_editor_button')) {
+      $this->grav['assets']->add('plugin://detect-adblock/admin/editor-button/js/button.js');
     }
   }
 

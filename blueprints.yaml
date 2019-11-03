@@ -88,8 +88,8 @@ form:
               highlight:                        0
               default:                          0
               options:
-                1:                              PLUGIN_ADMIN.ENABLED
-                0:                              PLUGIN_ADMIN.DISABLED
+                1:                              PLUGIN_ADMIN.YES
+                0:                              PLUGIN_ADMIN.NO
               validate:
                 type:                           bool
 
@@ -115,8 +115,10 @@ form:
                 resizer: true
 
             popup.message.content.desc:
-              type: section
-              title: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
+              type: display
+              markdown: true
+              size: long
+              content: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
 
         inside:
           type: tab
@@ -126,11 +128,23 @@ form:
               type:                             toggle
               label:                            PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.ENABLE
               help:                             PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.ENABLE_HELP
-              highlight:                        0
+              highlight:                        1
               default:                          0
               options:
-                1:                              PLUGIN_ADMIN.ENABLED
-                0:                              PLUGIN_ADMIN.DISABLED
+                1:                              PLUGIN_ADMIN.YES
+                0:                              PLUGIN_ADMIN.NO
+              validate:
+                type:                           bool
+
+            inside.blockreading.add_editor_button:
+              type:                             toggle
+              label:                            PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.EDITOR_BUTTON
+              help:                             PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.EDITOR_BUTTON_HELP
+              highlight:                        1
+              default:                          1
+              options:
+                1:                              PLUGIN_ADMIN.YES
+                0:                              PLUGIN_ADMIN.NO
               validate:
                 type:                           bool
 
@@ -146,6 +160,8 @@ form:
                 resizer: true
 
             inside.blockreading.message.desc:
-              type: section
-              title: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
+              type: display
+              markdown: true
+              size: long
+              content: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
 

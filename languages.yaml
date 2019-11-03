@@ -14,7 +14,7 @@ en:
         CONTENT:
           LABEL:  'Message to display:'
           HELP:   'Write here the message that you want to display with Detect Adblock event is raised.'
-          DESC:   'To integrate language translation, split content with the tag ---{language key}---.'
+          DESC:   'To add language translations, split content with the tag **---{language key}---**. (e.g: ---fr---)'
         PAGE_FILTER:
           LABEL:  'Display message for pages'
           PH: 'blog, portfolio'
@@ -30,8 +30,10 @@ en:
       BLOCK_READING:
         ENABLE: 'Block reading of article'
         ENABLE_HELP: 'Block the user reading full article if ad blocker is enabled.'
-        MESSAGE: 'Warning message to display'
+        MESSAGE: 'Warning message to display:'
         MESSAGE_HELP: 'Message that will be displayed to invite user to disable ad blocker'
+        EDITOR_BUTTON: 'Add a button in editor'
+        EDITOR_BUTTON_HELP: 'Add a button in editor to insert tags'
 
 
 # French
@@ -50,7 +52,7 @@ fr:
         CONTENT:
           LABEL:  'Message à afficher :'
           HELP:   'Ecrire ici le message à afficher quand Detect Adblock lève un événement.'
-          DESC:   'Pour intégrer les traductions, séparez le contenu avec le tag ---{code du language}---.'
+          DESC:   'Pour ajouter les traductions, séparez le contenu avec le tag **---{code du language}---**. (ex.: ---en---)'
         PAGE_FILTER:
           LABEL:  'Afficher message pour les pages'
           PH: 'blog, portfolio'
@@ -66,5 +68,7 @@ fr:
       BLOCK_READING:
         ENABLE: 'Bloquer la lecture de l''article'
         ENABLE_HELP: 'Bloque la lecture de l''article complet si un bloqueur de publicités est activé par l''utilisateur.'
-        MESSAGE: 'Message d''avertissement à afficher'
+        MESSAGE: 'Message d''avertissement à afficher :'
         MESSAGE_HELP: 'Ecrire ici le message qui sera afficher pour demander à l''utilisateur de désactiver le bloqueur de publicités.'
+        EDITOR_BUTTON: 'Ajouter un bouton à l''éditeur'
+        EDITOR_BUTTON_HELP: 'Ajoute un bouton à l''éditeur pour insérer les tags.'

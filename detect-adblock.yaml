@@ -21,11 +21,12 @@ popup:
 
         Merci.
   blockvisit:
-    enabled: false        # Set to true to block visit on website if AdBlock is enabled
-    idtoremove: 'body'    # DOM Id to remove when visit is blocked.
+    enabled: false            # Set to true to block visit on website if AdBlock is enabled
+    idtoremove: 'body'        # DOM Id to remove when visit is blocked.
 inside:
   blockreading:
-    enabled: false        # Set to true to block reading of full article
+    enabled: false            # Set to true to block reading of full article
+    add_editor_button: true   # Set to true to add a button in editor to insert tags
     message: |
         To read the full article, please disable your ad blocker!
         ---fr---
