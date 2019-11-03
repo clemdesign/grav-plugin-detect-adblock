@@ -60,7 +60,7 @@ class DetectAdBlockPlugin extends Plugin
     if (!$this->isAdmin() && $this->config->get('plugins.detect-adblock.enabled')) {
       $this->enable([
         'onPageInitialized' => ['onPageInitialized', -1],
-        'onPageContentRaw' => ['onPageContentRaw', 0],
+        'onPageContentRaw' => ['onPageContentRaw', -1],
         'onPageContentProcessed' => ['onPageContentProcessed', 0]
       ]);
     }
@@ -81,10 +81,7 @@ class DetectAdBlockPlugin extends Plugin
     }
 
     // Manage Message
-    if ($this->config->get('plugins.detect-adblock.popup.message.enabled') &&
-        !$this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
-
-      $this->displayPopupMessage = true;
+    if ($this->displayPopupMessage) {
 
       //Manage Page Filter
       $filter_items = $this->config->get('plugins.detect-adblock.popup.message.page_filter');
@@ -108,8 +105,7 @@ class DetectAdBlockPlugin extends Plugin
 
         //Manage display only one times
         if ($displayOnlyOneTimes && (!$blockVisitEnabled)) {
-          $this->grav['assets']->add('plugin://detect-adblock/assets/js/cookies.js', null, true, null, 'bottom');
-          $inlineJs .= 'if(abDetected && (getCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock-popup\').style.display=\'block\';}';
+          $inlineJs .= 'if(abDetected && (dabGetCookie("detect-adblock")!="true")){document.getElementById(\'detect-adblock-popup\').style.display=\'block\';}';
         } else {
           $inlineJs .= 'if(abDetected){document.getElementById(\'detect-adblock-popup\').style.display=\'block\';}';
         }
@@ -118,7 +114,7 @@ class DetectAdBlockPlugin extends Plugin
         if (!$blockVisitEnabled) {
           $inlineJs .= 'function dabHide(){document.getElementById(\'detect-adblock-popup\').style.display=\'none\';';
           if ($displayOnlyOneTimes) {
-            $inlineJs .= 'setCookie("detect-adblock","true",1)';
+            $inlineJs .= 'dabSetCookie("detect-adblock","true",1)';
           }
           $inlineJs .= '}';
         } else {
@@ -148,7 +144,7 @@ class DetectAdBlockPlugin extends Plugin
 
     // Add CSS and JS
     $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
-    $this->grav['assets']->addJs('plugin://detect-adblock/assets/js/detect-adblock.js');
+    $this->grav['assets']->add('plugin://detect-adblock/assets/js/detect-adblock.js', null, true, null, 'bottom');
     $this->grav['assets']->addInlineJs($inlineJs, null, 'bottom');
   }
 
@@ -165,6 +161,15 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onPageContentRaw()
   {
+
+    // Manage Popup Message displaying
+    $this->displayPopupMessage = false;
+    if ($this->config->get('plugins.detect-adblock.popup.message.enabled') &&
+      !$this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
+      $this->displayPopupMessage = true;
+    }
+
+
     // TODO: Manage caching
     // Popup Message
     $message_popup_raw = $this->config->get('plugins.detect-adblock.popup.message.content');
@@ -233,21 +238,23 @@ class DetectAdBlockPlugin extends Plugin
 
       // Search for tags and replace it
       $content = $this->grav['page']->getRawContent();
-      $content = preg_replace("#<([a-z]{1,5})>---dab---</([a-z]{1,5})>#i", '<div id="dab-content-begin">' . $pageContent . '</div>', $content);
+      $content = preg_replace("#<([a-z]{1,5})>---dab---</([a-z]{1,5})>#i", '<div id="dab-content-begin" style="display:none;">' . $pageContent . '</div>', $content);
       $content = preg_replace("#<([a-z]{1,5})>---/dab---</([a-z]{1,5})>#i", '<div id="dab-content-end"></div>', $content);
       $this->grav['page']->setRawContent($content);
     }
   }
 
   /**
-   * Clean URL
+   * Get only the first part of URL
    * @param $url
    * @return bool|string
    */
   private function cleanUrl($url)
   {
-    if (substr($url, 0, 1) == "/") {
-      return substr($url, 1, strlen($url) - 1);
+    // Remove / at begining
+    $url = trim($url, "/ ");
+    if(strpos($url, "/") > 0) {
+      $url = strstr($url, "/", true);
     }
     return $url;
   }
