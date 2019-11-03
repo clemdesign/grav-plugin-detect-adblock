@@ -1,9 +1,4 @@
-<div class="detect-adblock" id="detect-adblock" style="display: none;">
-  <div class="dab-message">
-    <div class="dab-buttons"><a href="#" onclick="dabHide()"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-    <div class="dab-content">
-      {{ adblock_message_content|markdown }}
-    </div>
-  </div>
-</div>
+{% if adblock_popup_displayed %}
+{% include 'partials/detect-adblock-popup.html.twig' %}
+{% endif %}
 <script src="{{ home_url }}user/plugins/detect-adblock/assets/js/ads.js"></script>

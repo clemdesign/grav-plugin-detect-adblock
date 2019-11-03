@@ -1,4 +1,4 @@
-.detect-adblock {
+.detect-adblock-popup {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -8,7 +8,7 @@
   z-index: 100;
 }
 
-.detect-adblock .dab-message {
+.detect-adblock-popup .dab-message {
   position: relative;
   width: 60%;
   margin: auto;
@@ -19,7 +19,7 @@
   border-radius: 1rem;
 }
 
-.detect-adblock .dab-message .dab-buttons {
+.detect-adblock-popup .dab-message .dab-buttons {
   position: absolute;
   width: 100px;
   height: 48px;
@@ -29,6 +29,19 @@
   font-size: 2rem;
 }
 
-.detect-adblock .dab-message .dab-content {
+.detect-adblock-popup .dab-message .dab-content {
   font-size: 1.5rem;
+}
+
+.detect-adblock-inside {
+  border: 2px solid #d08c43;
+  border-radius: 1rem;
+  background-color: #efdacf;
+  padding: 1rem;
+  font-size: 1.4rem;
+  color: #d07014;
+}
+
+.detect-adblock-inside p {
+  margin: 0.8rem;
 }

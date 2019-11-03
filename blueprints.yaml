@@ -39,72 +39,113 @@ form:
       validate:
         type:                           bool
 
-    message.enabled:
-      type:                             toggle
-      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.ENABLED
-      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.ENABLED_HELP
-      highlight:                        1
-      default:                          1
-      options:
-        1:                              PLUGIN_ADMIN.ENABLED
-        0:                              PLUGIN_ADMIN.DISABLED
-      validate:
-        type:                           bool
+    dab_section:
+      type: tabs
+      active: 1
+      title: Features
+      fields:
+        popup:
+          type: tab
+          title: PLUGIN_DETECT_ADBLOCK.POPUP.TITLE
+          fields:
+            popup.message.enabled:
+              type:                             toggle
+              label:                            PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.ENABLED
+              help:                             PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.ENABLED_HELP
+              highlight:                        1
+              default:                          1
+              options:
+                1:                              PLUGIN_ADMIN.ENABLED
+                0:                              PLUGIN_ADMIN.DISABLED
+              validate:
+                type:                           bool
 
-    message.displayone:
-      type:                             toggle
-      label:                            PLUGIN_DETECT_ADBLOCK.MESSAGE.DISPLAY_ONE
-      help:                             PLUGIN_DETECT_ADBLOCK.MESSAGE.DISPLAY_ONE_HELP
-      highlight:                        1
-      default:                          0
-      options:
-        1:                              PLUGIN_ADMIN.YES
-        0:                              PLUGIN_ADMIN.NO
-      validate:
-        type:                           bool
+            popup.message.displayone:
+              type:                             toggle
+              label:                            PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.DISPLAY_ONE
+              help:                             PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.DISPLAY_ONE_HELP
+              highlight:                        1
+              default:                          0
+              options:
+                1:                              PLUGIN_ADMIN.YES
+                0:                              PLUGIN_ADMIN.NO
+              validate:
+                type:                           bool
 
-    message.page_filter:
-      type:                     selectize
-      size:                     large
-      label:                    PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.LABEL
-      placeholder:              PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.PH
-      help:                     PLUGIN_DETECT_ADBLOCK.MESSAGE.PAGE_FILTER.HELP
-      validate:
-        type:                   commalist
+            popup.message.page_filter:
+              type:                     selectize
+              size:                     large
+              label:                    PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.PAGE_FILTER.LABEL
+              placeholder:              PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.PAGE_FILTER.PH
+              help:                     PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.PAGE_FILTER.HELP
+              validate:
+                type:                   commalist
 
-    blockvisit.enabled:
-      type:                             toggle
-      label:                            PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE
-      help:                             PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ENABLE_HELP
-      highlight:                        0
-      default:                          0
-      options:
-        1:                              PLUGIN_ADMIN.ENABLED
-        0:                              PLUGIN_ADMIN.DISABLED
-      validate:
-        type:                           bool
+            popup.blockvisit.enabled:
+              type:                             toggle
+              label:                            PLUGIN_DETECT_ADBLOCK.POPUP.BLOCK_VISITE.ENABLE
+              help:                             PLUGIN_DETECT_ADBLOCK.POPUP.BLOCK_VISITE.ENABLE_HELP
+              highlight:                        0
+              default:                          0
+              options:
+                1:                              PLUGIN_ADMIN.ENABLED
+                0:                              PLUGIN_ADMIN.DISABLED
+              validate:
+                type:                           bool
 
-    blockvisit.idtoremove:
-      type: text
-      label: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL
-      help: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_HELP
-      size: small
-      placeholder: 'body'
-      validate:
-          pattern: '([^"]*?)'
-          message: PLUGIN_DETECT_ADBLOCK.BLOCK_VISITE.ID_LABEL_VALIDATION
+            popup.blockvisit.idtoremove:
+              type: text
+              label: PLUGIN_DETECT_ADBLOCK.POPUP.BLOCK_VISITE.ID_LABEL
+              help: PLUGIN_DETECT_ADBLOCK.POPUP.BLOCK_VISITE.ID_LABEL_HELP
+              size: small
+              placeholder: 'body'
+              validate:
+                  pattern: '([^"]*?)'
+                  message: PLUGIN_DETECT_ADBLOCK.POPUP.BLOCK_VISITE.ID_LABEL_VALIDATION
 
-    message.content:
-      type: editor
-      label: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.LABEL
-      help: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.HELP
-      codemirror:
-        mode: 'gfm'
-        indentWithTabs: false
-        lineNumbers: false
-        styleActiveLine: true
-        resizer: true
+            popup.message.content:
+              type: editor
+              label: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.LABEL
+              help: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.HELP
+              codemirror:
+                mode: 'gfm'
+                indentWithTabs: false
+                lineNumbers: false
+                styleActiveLine: true
+                resizer: true
 
-    message.content.desc:
-      type: section
-      title: PLUGIN_DETECT_ADBLOCK.MESSAGE.CONTENT.DESC
+            popup.message.content.desc:
+              type: section
+              title: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
+
+        inside:
+          type: tab
+          title: PLUGIN_DETECT_ADBLOCK.INSIDE.TITLE
+          fields:
+            inside.blockreading.enabled:
+              type:                             toggle
+              label:                            PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.ENABLE
+              help:                             PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.ENABLE_HELP
+              highlight:                        0
+              default:                          0
+              options:
+                1:                              PLUGIN_ADMIN.ENABLED
+                0:                              PLUGIN_ADMIN.DISABLED
+              validate:
+                type:                           bool
+
+            inside.blockreading.message:
+              type: editor
+              label: PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.MESSAGE
+              help: PLUGIN_DETECT_ADBLOCK.INSIDE.BLOCK_READING.MESSAGE_HELP
+              codemirror:
+                mode: 'gfm'
+                indentWithTabs: false
+                lineNumbers: false
+                styleActiveLine: true
+                resizer: true
+
+            inside.blockreading.message.desc:
+              type: section
+              title: PLUGIN_DETECT_ADBLOCK.POPUP.MESSAGE.CONTENT.DESC
+

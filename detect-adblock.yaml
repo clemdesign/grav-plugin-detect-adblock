@@ -3,22 +3,30 @@
 
 enabled: true           # Set to true to enabled the plugin
 ganalytics: true        # Set to true to manage Google Analytics tracking
-message:
-  enabled: true         # Set to true to display message
-  displayone: true      # Set to true to display only 1 times
-  page_filter: ''       # List of pages where message shall be displayed.
-  content: |
-      This website is made possible by displaying online **advertisements** to our visitors.
+popup:
+  message:
+    enabled: true         # Set to true to display message
+    displayone: true      # Set to true to display only 1 times
+    page_filter: ''       # List of pages where message shall be displayed.
+    content: |
+        This website is made possible by displaying online **advertisements** to our visitors.
 
-      Please consider supporting us by **disabling** your ad blocker.
+        Please consider supporting us by **disabling** your ad blocker.
 
-      Thank you.
-      ---fr---
-      Ce site web est possible grâce à la **publicité**.
+        Thank you.
+        ---fr---
+        Ce site web est possible grâce à la **publicité**.
 
-      Soutenez-nous en **désactivant** votre bloqueur de publicité.
+        Soutenez-nous en **désactivant** votre bloqueur de publicité.
 
-      Merci.
-blockvisit:
-  enabled: false        # Set to true to block visit on website if AdBlock is enabled
-  idtoremove: 'body'    # DOM Id to remove when visit is blocked.
+        Merci.
+  blockvisit:
+    enabled: false        # Set to true to block visit on website if AdBlock is enabled
+    idtoremove: 'body'    # DOM Id to remove when visit is blocked.
+inside:
+  blockreading:
+    enabled: false        # Set to true to block reading of full article
+    message: |
+        To read the full article, please disable your ad blocker!
+        ---fr---
+        Pour lire l'article au complet, veuillez désactiver votre bloqueur de publicités s'il vous plait!

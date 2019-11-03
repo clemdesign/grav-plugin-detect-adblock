@@ -4,48 +4,67 @@ en:
     PLUGIN_STATUS: 'Plugin Status'
     GOOGLE_ANALYTICS: 'Google Analytics'
     GOOGLE_ANALYTICS_HELP: 'Track user Adblock status with Google Analytics'
-    MESSAGE:
-      ENABLED: 'Display Message'
-      ENABLED_HELP: 'Display a message to user in order to disable Adblock'
-      DISPLAY_ONE: 'Display message only 1 times'
-      DISPLAY_ONE_HELP: 'When enabled, message will not appears for User during one day (use cookie)'
-      CONTENT:
-        LABEL:  'Message to display:'
-        HELP:   'Write here the message that you want to display with Detect Adblock event is raised.'
-        DESC:   'To integrate language translation, split content with the tag ---{language key}---.'
-      PAGE_FILTER:
-        LABEL:  'Display message for pages'
-        PH: 'blog, portfolio'
-        HELP: 'List of site page where message shall be displayed. If empty, will be displayed for all pages.'
-    BLOCK_VISITE:
-      ENABLE: 'Block Visit'
-      ENABLE_HELP: 'Block user to follow visit on website'
-      ID_LABEL: 'DOM Id to remove'
-      ID_LABEL_HELP: 'If defined, this plugin remove the DOM item from page.'
-      ID_LABEL_VALIDATION: 'ID not valid.'
+    POPUP:
+      TITLE: 'Popup Message'
+      MESSAGE:
+        ENABLED: 'Display Message'
+        ENABLED_HELP: 'Display a popup message to user in order to disable Adblock'
+        DISPLAY_ONE: 'Display message only 1 times'
+        DISPLAY_ONE_HELP: 'When enabled, message will not appears for User during one day (use cookie)'
+        CONTENT:
+          LABEL:  'Message to display:'
+          HELP:   'Write here the message that you want to display with Detect Adblock event is raised.'
+          DESC:   'To integrate language translation, split content with the tag ---{language key}---.'
+        PAGE_FILTER:
+          LABEL:  'Display message for pages'
+          PH: 'blog, portfolio'
+          HELP: 'List of site page where message shall be displayed. If empty, will be displayed for all pages.'
+      BLOCK_VISITE:
+        ENABLE: 'Block Visit'
+        ENABLE_HELP: 'Block user to follow visit on website'
+        ID_LABEL: 'DOM Id to remove'
+        ID_LABEL_HELP: 'If defined, this plugin remove the DOM item from page.'
+        ID_LABEL_VALIDATION: 'ID not valid.'
+    INSIDE:
+      TITLE: 'Page Content Message'
+      BLOCK_READING:
+        ENABLE: 'Block reading of article'
+        ENABLE_HELP: 'Block the user reading full article if ad blocker is enabled.'
+        MESSAGE: 'Warning message to display'
+        MESSAGE_HELP: 'Message that will be displayed to invite user to disable ad blocker'
+
 
 # French
 fr:
   PLUGIN_DETECT_ADBLOCK:
     PLUGIN_STATUS: 'Status du plugin'
     GOOGLE_ANALYTICS: 'Google Analytics'
-    GOOGLE_ANALYTICS_HELP: 'Surveiller l''utilisation d''AdBlock des utilisateurs avec Google Analytics'
-    MESSAGE:
-      ENABLED: 'Afficher message'
-      ENABLED_HELP: 'Afficher un message à l''utilisateur afin de désactiver AdBlock'
-      DISPLAY_ONE: 'Afficher message seulement 1 fois'
-      DISPLAY_ONE_HELP: 'Lorsque activé, le message ne sera plus réaffiché pendant 1 jour (utilise les cookies)'
-      CONTENT:
-        LABEL:  'Message à afficher :'
-        HELP:   'Ecrire ici le message à afficher quand Detect Adblock lève un événement.'
-        DESC:   'Pour intégrer les traductions, séparez le contenu avec le tag ---{code du language}---.'
-      PAGE_FILTER:
-        LABEL:  'Afficher message pour les pages'
-        PH: 'blog, portfolio'
-        HELP: 'Liste des pages du site où le message sera affiché. Si vide, le message sera affiché sur toutes les pages.'
-    BLOCK_VISITE:
-      ENABLE: 'Bloquer la visite'
-      ENABLE_HELP: 'Empêche l''utilisateur à poursuivre la visite.'
-      ID_LABEL: 'ID de l''élément DOM à supprimer'
-      ID_LABEL_HELP: 'Si définit, le plugin supprimer l''élément DOM de la page web.'
-      ID_LABEL_VALIDATION: 'ID incorrect.'
+    GOOGLE_ANALYTICS_HELP: 'Surveille l''utilisation d''AdBlock des utilisateurs avec Google Analytics'
+    POPUP:
+      TITLE: 'Message type Popup'
+      MESSAGE:
+        ENABLED: 'Afficher message'
+        ENABLED_HELP: 'Affiche un message popup à l''utilisateur afin de désactiver AdBlock'
+        DISPLAY_ONE: 'Afficher message seulement 1 fois'
+        DISPLAY_ONE_HELP: 'Lorsque activé, le message ne sera plus réaffiché pendant 1 jour (utilise les cookies)'
+        CONTENT:
+          LABEL:  'Message à afficher :'
+          HELP:   'Ecrire ici le message à afficher quand Detect Adblock lève un événement.'
+          DESC:   'Pour intégrer les traductions, séparez le contenu avec le tag ---{code du language}---.'
+        PAGE_FILTER:
+          LABEL:  'Afficher message pour les pages'
+          PH: 'blog, portfolio'
+          HELP: 'Liste des pages du site où le message sera affiché. Si vide, le message sera affiché sur toutes les pages.'
+      BLOCK_VISITE:
+        ENABLE: 'Bloquer la visite'
+        ENABLE_HELP: 'Empêche l''utilisateur à poursuivre la visite.'
+        ID_LABEL: 'ID de l''élément DOM à supprimer'
+        ID_LABEL_HELP: 'Si définit, le plugin supprimer l''élément DOM de la page web.'
+        ID_LABEL_VALIDATION: 'ID incorrect.'
+    INSIDE:
+      TITLE: 'Message de contenu'
+      BLOCK_READING:
+        ENABLE: 'Bloquer la lecture de l''article'
+        ENABLE_HELP: 'Bloque la lecture de l''article complet si un bloqueur de publicités est activé par l''utilisateur.'
+        MESSAGE: 'Message d''avertissement à afficher'
+        MESSAGE_HELP: 'Ecrire ici le message qui sera afficher pour demander à l''utilisateur de désactiver le bloqueur de publicités.'

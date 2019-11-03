@@ -62,14 +62,15 @@ Otherwise, you have the following configuration parameters:
 ```yaml
 enabled: true           # Set to true to enable the plugin
 ganalytics: true        # Set to true to manage Google Analytics tracking
-message:
-  enabled: true         # Set to true to display message
-  displayone: true      # Set to true to display only 1 times
-  page_filter: ''       # List of pages where message shall be displayed.
-  content:              # Your message content in markdown format
-blockvisit:
-  enabled: false        # Set to true to block visit on website if AdBlock is enabled
-  idtoremove: 'body'    # DOM Id to remove when visit is blocked.
+popup:
+  message:
+    enabled: true         # Set to true to display message
+    displayone: true      # Set to true to display only 1 times
+    page_filter: ''       # List of pages where message shall be displayed.
+    content:              # Your message content in markdown format
+  blockvisit:
+    enabled: false        # Set to true to block visit on website if AdBlock is enabled
+    idtoremove: 'body'    # DOM Id to remove when visit is blocked.
 ```
 
 ### 3. Overwriting the message style
@@ -79,7 +80,7 @@ blockvisit:
 The message displayed to user is managed by the template `partials/detect-adblock.html.twig`.  
 You can overwrite this template in your theme, but be careful to:
 
-- define the ` id="detect-adblock"` for box wrapper of your message.
+- define the ` id="detect-adblock-popup"` for box wrapper of your message.
 - add a close button with this action ` onclick="dabHide()"`.
 - add the script to include `/user/plugins/detect-adblock/assets/js/ads.js`
 
@@ -89,16 +90,16 @@ You have possibility to overwrite the style of messsage.
 For that, you have the following CSS tag:
 
 ```css
-.detect-adblock {
+.detect-adblock-popup {
     /* The global message wrapper, to manage background of message. */
 }
-.detect-adblock .dab-message {
+.detect-adblock-popup .dab-message {
     /* The message container, to manage main message style. */
  }
-.detect-adblock .dab-message .dab-buttons {
+.detect-adblock-popup .dab-message .dab-buttons {
     /* The message buttons container. */
 }
-.detect-adblock .dab-message .dab-content {
+.detect-adblock-popup .dab-message .dab-content {
     /* The message content container. */
 }
 ```
