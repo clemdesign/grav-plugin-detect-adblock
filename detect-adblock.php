@@ -15,6 +15,7 @@
 namespace Grav\Plugin;
 
 
+use Grav\Common\Page\Interfaces\PageInterface;
 use Grav\Common\Plugin;
 
 
@@ -69,6 +70,7 @@ class DetectAdBlockPlugin extends Plugin
       } else {
         $this->enable([
           'onTwigSiteVariables' => ['onTwigSiteVariables', -10],
+          'onAdminAfterSave' => ['onAdminAfterSave', 0],
         ]);
       }
     }
@@ -88,7 +90,7 @@ class DetectAdBlockPlugin extends Plugin
       $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',(abDetected?\'Yes\':\'No\'),undefined,undefined,true]);}';
     }
 
-    // Manage Message
+    // Manage Popup Message
     if ($this->displayPopupMessage) {
 
       //Manage Page Filter
@@ -140,7 +142,7 @@ class DetectAdBlockPlugin extends Plugin
 
     }
 
-    // Block Content operation
+    // Manage Inside Message: Block Reading operation
     if ($this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
       $inlineJs .= 'var dabContentBegin = document.getElementById("dab-content-begin");';
       $inlineJs .= 'if(abDetected && dabContentBegin) {';
@@ -176,68 +178,48 @@ class DetectAdBlockPlugin extends Plugin
       !$this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
       $this->displayPopupMessage = true;
     }
-
-
-    // TODO: Manage caching
-    // Popup Message
-    $message_popup_raw = $this->config->get('plugins.detect-adblock.popup.message.content');
-
-    //Extract message according current language
-    $message_popup_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_popup_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-
-    $key='all';
-    $message_popup_array = array();
-    foreach($message_popup_array_raw as $value){
-      $nbChar = strlen($value);
-      if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
-        $key = $value;
-      } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
-        $message_popup_array[$key] = trim($value," \t\n\r\0\x0B");
-      }
-    }
-
-    $lang = $this->grav['language']->getLanguage();
-    $message = 'Bad configuration of Message to Display in Plugin parameters.';
-    if(isset($message_popup_array[$lang])) {
-      $message = $message_popup_array[$lang];
-    } elseif(isset($message_popup_array['all'])) {
-      $message = $message_popup_array['all'];
-    }
-
-    $this->grav['twig']->twig_vars['adblock_popup_message_content'] = $message;
     $this->grav['twig']->twig_vars['adblock_popup_displayed'] = $this->displayPopupMessage;
 
-    // Inside Message
-    $message_inside_raw = $this->config->get('plugins.detect-adblock.inside.blockreading.message');
-
-    //Extract message according current language
-    $message_inside_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_inside_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-
-    $key='all';
-    $message_inside_array = array();
-    foreach($message_inside_array_raw as $value){
-      $nbChar = strlen($value);
-      if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
-        $key = $value;
-      } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
-        $message_inside_array[$key] = trim($value," \t\n\r\0\x0B");
-      }
-    }
-
+    // Read message from data caching
+    $locator = $this->grav['locator'];
     $lang = $this->grav['language']->getLanguage();
-    $message = 'Bad configuration of Message to Display in Plugin parameters.';
-    if(isset($message_inside_array[$lang])) {
-      $message = $message_inside_array[$lang];
-    } elseif(isset($message_inside_array['all'])) {
-      $message = $message_inside_array['all'];
+
+    // Popup Message
+    if($this->displayPopupMessage) {
+      $message = null;
+      $path = $locator->findResource('user://data/detect-adblock/popup-message-content.' . $lang . '.md');
+      if(!$path) {
+        $path = $locator->findResource('user://data/detect-adblock/popup-message-content.all.md');
+      }
+      if($path) {
+        $message = file_get_contents($path);
+      }
+      if(!$message){
+        $message = 'Bad configuration of Message to Display in Plugin parameters.';
+      }
+
+      $this->grav['twig']->twig_vars['adblock_popup_message_content'] = $message;
+
+    } else {
+      // Inside Message
+      $message = null;
+      $path = $locator->findResource('user://data/detect-adblock/inside-message-content.' . $lang . '.md');
+      if(!$path) {
+        $path = $locator->findResource('user://data/detect-adblock/inside-message-content.all.md');
+      }
+      if($path) {
+        $message = file_get_contents($path);
+      }
+      if(!$message){
+        $message = 'Bad configuration of Message to Display in Plugin parameters.';
+      }
+
+      $this->grav['twig']->twig_vars['adblock_inside_message_content'] = $message;
     }
-
-    $this->grav['twig']->twig_vars['adblock_inside_message_content'] = $message;
-
   }
 
   /**
-   * Manage ---dab--- tags
+   * Search for DAB tags in page content and replace it by message.
    */
   public function onPageContentProcessed(){
     if ($this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
@@ -253,12 +235,79 @@ class DetectAdBlockPlugin extends Plugin
   }
 
   /**
-   * Manage Admin operation
+   * Manage Admin operation: Add DAB button in admin editor
    */
   public function onTwigSiteVariables(){
     // Add parameter to add button
     if($this->config->get('plugins.detect-adblock.inside.blockreading.add_editor_button')) {
       $this->grav['assets']->add('plugin://detect-adblock/admin/editor-button/js/button.js');
+    }
+  }
+
+  /**
+   * Save caching data files
+   * @param $event \RocketTheme\Toolbox\Event\Event
+   */
+  public function onAdminAfterSave($event){
+    /** @var PageInterface $obj */
+    $obj = $event->offsetGet('object');
+
+    // Save data caching only on detect AdBlock plugin saving event
+    if($obj->file()->basename() == "detect-adblock"){
+
+      // Create caching files directory if not created
+      $locator = $this->grav['locator'];
+      if(!($basePath = $locator->findResource('user://data/detect-adblock'))){
+        $basePath = $locator->findResource('user://data') . DS . 'detect-adblock';
+        mkdir($basePath, 0775, true);
+      }
+
+      /**
+       * Save POPUP message content in data files
+       */
+      $message_popup_raw = $obj->file()->content()['popup']['message']['content'];
+
+      //Extract message according current language
+      $message_popup_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_popup_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+      $key='all';
+      $message_popup_array = array();
+      foreach($message_popup_array_raw as $value){
+        $nbChar = strlen($value);
+        if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
+          $key = $value;
+        } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
+          $message_popup_array[$key] = trim($value," \t\n\r\0\x0B");
+        }
+      }
+
+      foreach($message_popup_array as $key => $value) {
+        file_put_contents($basePath . DS . 'popup-message-content.' . $key . '.md', $value);
+      }
+
+
+      /**
+       * Save INSIDE message content in data files
+       */
+      $message_inside_raw = $obj->file()->content()['inside']['blockreading']['message'];
+
+      //Extract message according current language
+      $message_inside_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_inside_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+      $key='all';
+      $message_inside_array = array();
+      foreach($message_inside_array_raw as $value){
+        $nbChar = strlen($value);
+        if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
+          $key = $value;
+        } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
+          $message_inside_array[$key] = trim($value," \t\n\r\0\x0B");
+        }
+      }
+
+      foreach($message_inside_array as $key => $value) {
+        file_put_contents($basePath . DS . 'inside-message-content.' . $key . '.md', $value);
+      }
     }
   }
 
