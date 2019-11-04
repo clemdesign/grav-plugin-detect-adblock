@@ -6,7 +6,7 @@ The **Detect AdBlock** plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 This plugin allow you to:
 - detect ad blocker
-- track user ad blocking status with Google Analytics
+- track user ads blocking status with Google Analytics
 
 ![Google Analytics Events](assets/img/ganalytics_events.png)
 
@@ -16,9 +16,9 @@ This plugin allow you to:
 
 - block reading of article by inserting inside message
 
-![Inside Message](assets/img/inside_message.jpg)
+![Inside Message](assets/img/inside_message.png)
 
-This plugin works as an anti-adblock or just for statistics.
+This plugin works as an **anti-adblock** or just for **statistics**.
 
 ## Pre-requisites
 
@@ -26,7 +26,7 @@ If you want to manage Google Analytics, you shall include the snippets in your s
   - Using your own integration (in theme or other)
   - Using Grav plugin [Google Analytics](https://github.com/escopecz/grav-ganalytics) by John Linhart.
 
-To use Detect AdBlock editor button, you shall integrate jQuery v2.2.4 or upper.
+To use *Detect AdBlock editor button*, you shall integrate **jQuery** v2.2.4 or upper.
   
 ## Installation
 
