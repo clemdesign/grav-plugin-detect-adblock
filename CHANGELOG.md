@@ -1,3 +1,11 @@
+# v2.0.0
+##  11/04/2019
+
+1. [](#improve)
+    * Manage block reading operation: Force user to disable ad blocker to read full article.
+    * Manage data caching for translations of messages
+
+
 # v1.1.0
 ##  10/23/2019
 

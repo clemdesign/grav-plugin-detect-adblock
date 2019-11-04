@@ -1,13 +1,13 @@
 
 # Global configurations
 
-enabled: true           # Set to true to enabled the plugin
-ganalytics: true        # Set to true to manage Google Analytics tracking
+enabled: true           # If true, enable the plugin
+ganalytics: true        # If true, manage Google Analytics tracking
 popup:
   message:
-    enabled: true         # Set to true to display message
-    displayone: true      # Set to true to display only 1 times
-    page_filter: ''       # List of pages where message shall be displayed.
+    enabled: true         # If true, display the popup message
+    displayone: true      # If true, display the popup message only one times
+    page_filter: ''       # List of page section where message shall be displayed (e.g.: blog, docs).
     content: |
         This website is made possible by displaying online **advertisements** to our visitors.
 
@@ -21,7 +21,7 @@ popup:
 
         Merci.
   blockvisit:
-    enabled: false            # Set to true to block visit on website if AdBlock is enabled
+    enabled: false            # If true, block the visit of user and force to disable ad blocker.
     idtoremove: 'body'        # DOM Id to remove when visit is blocked.
 inside:
   blockreading:

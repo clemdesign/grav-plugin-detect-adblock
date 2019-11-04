@@ -6,8 +6,17 @@ The **Detect AdBlock** plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 This plugin allow you to:
 - detect ad blocker
-- send blocking user status to Google Analytics
-- manage user message
+- track user ad blocking status with Google Analytics
+
+![Google Analytics Events](assets/img/ganalytics_events.png)
+
+- manage user message with popup
+
+![Popup Message](assets/img/popup_message.jpg)
+
+- block reading of article by inserting inside message
+
+![Inside Message](assets/img/inside_message.jpg)
 
 This plugin works as an anti-adblock or just for statistics.
 
@@ -16,10 +25,14 @@ This plugin works as an anti-adblock or just for statistics.
 If you want to manage Google Analytics, you shall include the snippets in your site:
   - Using your own integration (in theme or other)
   - Using Grav plugin [Google Analytics](https://github.com/escopecz/grav-ganalytics) by John Linhart.
+
+To use Detect AdBlock editor button, you shall integrate jQuery v2.2.4 or upper.
   
 ## Installation
 
 Installing the `Detect AdBlock` plugin can be done in one of two way: GPM (Grav Package Manager) installation method enables you to quickly and easily install the plugin with a simple terminal command, while the manual method enables you to do so via a zip file or GIT.
+	
+> NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav) to operate.
 
 ### GPM Installation (Preferred)
 
@@ -36,8 +49,6 @@ To install this plugin, just download the zip version of this repository and unz
 You should now have all the plugin files under
 
     /your/site/grav/user/plugins/detect-adblock
-	
-> NOTE: This plugin is a modular component for Grav which requires [Grav](http://github.com/getgrav/grav) to operate.
 
 ## Configuration
 
@@ -57,39 +68,80 @@ In your [theme](https://learn.getgrav.org/16/themes/theme-basics), add the follo
 
 This plugin can be configured entirely by [Grav Admin plugin](https://github.com/getgrav/grav-plugin-admin).
 
-Otherwise, you have the following configuration parameters:
+
+#### 2.1. Common configuration
+
+You can set-up the following common parameters:
 
 ```yaml
-enabled: true           # Set to true to enable the plugin
-ganalytics: true        # Set to true to manage Google Analytics tracking
+enabled: true           # If true, enable the plugin
+ganalytics: true        # If true, manage Google Analytics tracking
+```
+
+#### 2.2. Popup Message
+
+`Detect AdBlock` allow you to display a popup message that inform user that an ad blocker is detected.
+
+You can, in choice:
+- display a message and user can continue the visite by closing it.
+- force user to disable the ad blocker to continue the visit.
+
+There are the parameters:
+
+```yaml
 popup:
   message:
-    enabled: true         # Set to true to display message
-    displayone: true      # Set to true to display only 1 times
-    page_filter: ''       # List of pages where message shall be displayed.
+    enabled: true         # If true, display the popup message
+    displayone: true      # If true, display the popup message only one times
+    page_filter: ''       # List of page section where message shall be displayed (e.g.: blog, docs).
     content:              # Your message content in markdown format
   blockvisit:
-    enabled: false        # Set to true to block visit on website if AdBlock is enabled
+    enabled: false        # If true, block the visit of user and force to disable ad blocker
     idtoremove: 'body'    # DOM Id to remove when visit is blocked.
+```
+
+When the `blockvisit.enabled` parameter is enabled, you can block the user to read content with **Code Inspector** tool or navigator.  
+You shall define the parameter `blockvisit.idtoremove` with ID of DOM element container.
+
+#### 2.3. Inside Message
+
+`Detect AdBlock` is able to replace a page content by a message when ad blocker is detected.
+
+This feature is usefull to force user to disable ad blocker to read full article.
+
+When this option is enabled, it is prior on **Popup Message**.
+
+The are the parameters:
+
+```yaml
+inside:
+  blockreading:
+    enabled: false            # Set to true to block reading of full article
+    add_editor_button: true   # Set to true to add a button in editor to insert tags
+    message:                  # Your replaced warning message 
 ```
 
 ### 3. Overwriting the message style
 
 #### 3.1. Overwriting the template
 
-The message displayed to user is managed by the template `partials/detect-adblock.html.twig`.  
+The **Popup Message** is managed by the template `partials/detect-adblock-popup.html.twig`.  
 You can overwrite this template in your theme, but be careful to:
 
 - define the ` id="detect-adblock-popup"` for box wrapper of your message.
 - add a close button with this action ` onclick="dabHide()"`.
-- add the script to include `/user/plugins/detect-adblock/assets/js/ads.js`
+
+The **Inside Message** is managed by the template `partials/detect-adblock-inside.html.twig`.
+You can overwrite this template in your theme without restrictions.
+
 
 #### 3.2. Overwriting the css style
 
-You have possibility to overwrite the style of messsage.
+You have possibility to overwrite the style of messages.
 For that, you have the following CSS tag:
 
 ```css
+/* For Popup Message */
 .detect-adblock-popup {
     /* The global message wrapper, to manage background of message. */
 }
@@ -102,13 +154,17 @@ For that, you have the following CSS tag:
 .detect-adblock-popup .dab-message .dab-content {
     /* The message content container. */
 }
+/* For Inside Message */
+.detect-adblock-inside { 
+    /* The message container inserted in page */
+}
 ```
 
 ### 4. Multi-language of message
 
 Plugin allow you to define a multi-language message in plugin configuration page.
 
-The displayed message use the parameter `message.content`.
+The displayed message use the parameter `popup.message.content` for **Popup Message** or `inside.blockreading.message` for **Inside Message**.
 
 To define translation of your message, split the content with the tag `---{language key}---`.
 
@@ -137,14 +193,6 @@ Notify to Google Analytics the blocking user status works if:
 
 To get statistics in Google Analytics, refer to this page:  
 [https://support.google.com/analytics/answer/1033068?hl=en](https://support.google.com/analytics/answer/1033068?hl=en)
-
-### 6. Block visit to user
-
-This plugin allow you to force user to disable ad blocker.  
-It is an intrusive feature.
-
-In this way, to block user to read content by *Code Inspector* developer tool of the navigator, this plugin allow you to delete content if ad blocker is detected.  
-You shall enable the parameter `blockvisit.enabled` and define the `blockvisit.idtoremove` for that.
 
 # Contributing
 
