@@ -1,3 +1,9 @@
+# v2.0.1
+##  11/08/2019
+
+1. [](#bugfix)
+    * Fix issue for multi-language inside message.
+
 # v2.0.0
 ##  11/04/2019
 
