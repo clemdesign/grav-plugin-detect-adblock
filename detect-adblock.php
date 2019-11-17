@@ -253,7 +253,7 @@ class DetectAdBlockPlugin extends Plugin
     $obj = $event->offsetGet('object');
 
     // Save data caching only on detect AdBlock plugin saving event
-    if($obj->file()->basename() == "detect-adblock"){
+    if(($obj !== null) && ($obj->file()->basename() == "detect-adblock")){
 
       // Create caching files directory if not created
       $locator = $this->grav['locator'];
