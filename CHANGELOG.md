@@ -1,3 +1,11 @@
+
+# v2.0.3
+##  02/01/2022
+
+1. [](#bugfix)
+   * Fix #1: "Display message for pages" empty has no effect
+
+
 # v2.0.2
 ##  11/17/2019
 

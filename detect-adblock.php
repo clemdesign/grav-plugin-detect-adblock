@@ -103,6 +103,8 @@ class DetectAdBlockPlugin extends Plugin
           //Look for url in filter list
           if (in_array($url, $filter_items)) $bDispMessage = true;
         }
+      } else {
+        $bDispMessage = true;
       }
 
       if($bDispMessage) {
