@@ -1,5 +1,5 @@
 name:                                   "Detect AdBlock"
-version:                                2.0.3
+version:                                2.0.4
 description:                            "This plugin help you to detect and manage adblock in order to display message, send blocking user status to Google analytics..."
 icon:                                   ban
 author:

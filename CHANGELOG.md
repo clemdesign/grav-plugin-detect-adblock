@@ -1,3 +1,8 @@
+# v2.0.4
+##  03/27/2022
+
+1. [](#bugfix)
+   * Fix #2: apply breaking changes from ref site: rename ads.js to peel.js, rename ads tag
 
 # v2.0.3
 ##  02/01/2022

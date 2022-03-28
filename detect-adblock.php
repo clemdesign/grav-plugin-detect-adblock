@@ -82,7 +82,7 @@ class DetectAdBlockPlugin extends Plugin
   public function onPageInitialized()
   {
     // Add Detection JS
-    $inlineJs = 'var abDetected = !(document.getElementById(\'DeTEctAdBloCK\')!==null);';
+    $inlineJs = 'var abDetected = !(document.getElementById(\'DaEdTbEloCcTk\')!==null);';
 
     // Add Analytics JS
     if ($this->config->get('plugins.detect-adblock.ganalytics')) {
