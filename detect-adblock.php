@@ -82,8 +82,8 @@ class DetectAdBlockPlugin extends Plugin
   public function onPageInitialized()
   {
     // Wrap in IIFE; keep detection logic lightweight here
-    $inlineJs = '(function(){';
-    $inlineJs .= 'var abDetected=false;try{if(typeof dabDetectAdBlock===\'function\'){var res=dabDetectAdBlock();if(typeof res==="boolean"){abDetected=res;}}}catch(e){abDetected=true;}';
+    $inlineJs = '(async function(){';
+    $inlineJs .= 'try{var abDetected=false; if(typeof dabDetectAdBlock===\'function\'){ abDetected = await dabDetectAdBlock(); } }catch(e){ abDetected = true; }';
 
     // Add Analytics JS (uses abDetected)
     if ($this->config->get('plugins.detect-adblock.ganalytics')) {
