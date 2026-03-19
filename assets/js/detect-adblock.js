@@ -37,12 +37,12 @@ function dabDetectAdBlock(timeout = 150) {
                 const noSize = bait.offsetParent === null || bait.offsetHeight === 0 || bait.getClientRects().length === 0;
                 if (removed || hiddenByCss || noSize) {
                     // If DOM indicates a blockage, confirmation is made via network (optional).
-                    doNetworkCheck(result => cleanAndResolve(result || true));
+                    doNetworkCheck(result => cleanAndResolve(result));
                     return;
                 }
             } catch (e) {
                 // error => consider this a possible blockage and test the network
-                doNetworkCheck(result => cleanAndResolve(result || true));
+                doNetworkCheck(result => cleanAndResolve(result));
                 return;
             }
             // No indication from the DOM side, but run a network test anyway.
