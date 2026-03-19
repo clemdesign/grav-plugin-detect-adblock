@@ -81,7 +81,7 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onPageInitialized()
   {
-    // Wrap in IIFE; perform only fast, synchronous detection here
+    // Wrap in IIFE; keep detection logic lightweight here
     $inlineJs = '(function(){';
     $inlineJs .= 'var abDetected=false;try{if(typeof dabDetectAdBlock===\'function\'){var res=dabDetectAdBlock();if(typeof res==="boolean"){abDetected=res;}}}catch(e){abDetected=true;}';
 
