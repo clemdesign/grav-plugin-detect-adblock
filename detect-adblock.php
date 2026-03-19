@@ -60,7 +60,7 @@ class DetectAdBlockPlugin extends Plugin
 
     if ($this->config->get('plugins.detect-adblock.enabled')) {
       // Non Admin operation
-      if(!$this->isAdmin()) {
+      if (!$this->isAdmin()) {
         $this->enable([
           'onPageInitialized' => ['onPageInitialized', -1],
           'onPageContentRaw' => ['onPageContentRaw', -1],
@@ -81,10 +81,11 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onPageInitialized()
   {
-    // Add Detection JS
-    $inlineJs = 'var abDetected = !(document.getElementById(\'DaEdTbEloCcTk\')!==null);';
+    // Wrap in IIFE; keep detection logic lightweight here
+    $inlineJs = '(async function(){';
+    $inlineJs .= 'try{var abDetected=false; if(typeof dabDetectAdBlock===\'function\'){ abDetected = await dabDetectAdBlock(); } }catch(e){ abDetected = true; }';
 
-    // Add Analytics JS
+    // Add Analytics JS (uses abDetected)
     if ($this->config->get('plugins.detect-adblock.ganalytics')) {
       $inlineJs .= 'if(typeof ga !==\'undefined\'){ga(\'send\',\'event\',\'Blocking Ads\',(abDetected?\'Yes\':\'No\'),{\'nonInteraction\':1});}';
       $inlineJs .= 'else if(typeof _gaq !==\'undefined\'){_gaq.push([\'_trackEvent\',\'Blocking Ads\',(abDetected?\'Yes\':\'No\'),undefined,undefined,true]);}';
@@ -107,7 +108,7 @@ class DetectAdBlockPlugin extends Plugin
         $bDispMessage = true;
       }
 
-      if($bDispMessage) {
+      if ($bDispMessage) {
 
         $displayOnlyOneTimes = $this->config->get('plugins.detect-adblock.popup.message.displayone');
         $blockVisitEnabled = $this->config->get('plugins.detect-adblock.popup.blockvisit.enabled');
@@ -151,8 +152,10 @@ class DetectAdBlockPlugin extends Plugin
       $inlineJs .= 'dabContentBegin.style.display=\'block\';';
       $inlineJs .= 'dabDeleteDomElement(dabContentBegin.nextElementSibling, \'dab-content-end\', false);';
       $inlineJs .= '}';
-
     }
+
+    // close IIFE
+    $inlineJs .= '})();';
 
     // Add CSS and JS
     $this->grav['assets']->addCss('plugin://detect-adblock/assets/css/detect-adblock.css');
@@ -187,16 +190,16 @@ class DetectAdBlockPlugin extends Plugin
     $lang = $this->grav['language']->getLanguage();
 
     // Popup Message
-    if($this->displayPopupMessage) {
+    if ($this->displayPopupMessage) {
       $message = null;
       $path = $locator->findResource('user://data/detect-adblock/popup-message-content.' . $lang . '.md');
-      if(!$path) {
+      if (!$path) {
         $path = $locator->findResource('user://data/detect-adblock/popup-message-content.all.md');
       }
-      if($path) {
+      if ($path) {
         $message = file_get_contents($path);
       }
-      if(!$message){
+      if (!$message) {
         $message = 'Bad configuration of Message to Display in Plugin parameters.';
       }
 
@@ -206,13 +209,13 @@ class DetectAdBlockPlugin extends Plugin
       // Inside Message
       $message = null;
       $path = $locator->findResource('user://data/detect-adblock/inside-message-content.' . $lang . '.md');
-      if(!$path) {
+      if (!$path) {
         $path = $locator->findResource('user://data/detect-adblock/inside-message-content.all.md');
       }
-      if($path) {
+      if ($path) {
         $message = file_get_contents($path);
       }
-      if(!$message){
+      if (!$message) {
         $message = 'Bad configuration of Message to Display in Plugin parameters.';
       }
 
@@ -223,7 +226,8 @@ class DetectAdBlockPlugin extends Plugin
   /**
    * Search for DAB tags in page content and replace it by message.
    */
-  public function onPageContentProcessed(){
+  public function onPageContentProcessed()
+  {
     if ($this->config->get('plugins.detect-adblock.inside.blockreading.enabled')) {
       // Get content of template
       $pageContent = $this->grav['twig']->processTemplate('partials/detect-adblock-inside.html.twig');
@@ -239,9 +243,10 @@ class DetectAdBlockPlugin extends Plugin
   /**
    * Manage Admin operation: Add DAB button in admin editor
    */
-  public function onTwigSiteVariables(){
+  public function onTwigSiteVariables()
+  {
     // Add parameter to add button
-    if($this->config->get('plugins.detect-adblock.inside.blockreading.add_editor_button')) {
+    if ($this->config->get('plugins.detect-adblock.inside.blockreading.add_editor_button')) {
       $this->grav['assets']->add('plugin://detect-adblock/admin/editor-button/js/button.js');
     }
   }
@@ -250,66 +255,87 @@ class DetectAdBlockPlugin extends Plugin
    * Save caching data files
    * @param $event \RocketTheme\Toolbox\Event\Event
    */
-  public function onAdminAfterSave($event){
+  public function onAdminAfterSave($event)
+  {
     /** @var PageInterface $obj */
     $obj = $event->offsetGet('object');
 
-    // Save data caching only on detect AdBlock plugin saving event
-    if(($obj !== null) && ($obj->file()->basename() == "detect-adblock")){
+    // If there's no object, we leave
+    if ($obj === null) {
+      return;
+    }
 
-      // Create caching files directory if not created
-      $locator = $this->grav['locator'];
-      if(!($basePath = $locator->findResource('user://data/detect-adblock'))){
-        $basePath = $locator->findResource('user://data') . DS . 'detect-adblock';
-        mkdir($basePath, 0775, true);
+    // Protecting the call to file(): some objects (Flex) do not implement file()
+    try {
+      if (!is_callable([$obj, 'file'])) {
+        return;
       }
+      $file = $obj->file(); // may throw an exception if not supported
+      $basename = $file->basename();
+    } catch (\Throwable $e) {
+      // If file() is not implemented or throws an error, this save is not handled.
+      return;
+    }
 
-      /**
-       * Save POPUP message content in data files
-       */
-      $message_popup_raw = $obj->file()->content()['popup']['message']['content'];
+    // Save only if the saved form is that of the detect-adblock plugin
+    if ($basename !== "detect-adblock") {
+      return;
+    }
 
-      //Extract message according current language
-      $message_popup_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_popup_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+    // Create caching files directory if not created
+    $locator = $this->grav['locator'];
+    if (!($basePath = $locator->findResource('user://data/detect-adblock'))) {
+      $basePath = $locator->findResource('user://data') . DS . 'detect-adblock';
+      mkdir($basePath, 0775, true);
+    }
 
-      $key='all';
-      $message_popup_array = array();
-      foreach($message_popup_array_raw as $value){
-        $nbChar = strlen($value);
-        if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
-          $key = $value;
-        } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
-          $message_popup_array[$key] = trim($value," \t\n\r\0\x0B");
-        }
+    /**
+     * Save POPUP message content in data files
+     */
+    $content = $file->content();
+
+    $message_popup_raw = $content['popup']['message']['content'] ?? '';
+
+    //Extract message according current language
+    $message_popup_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_popup_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+    $key = 'all';
+    $message_popup_array = array();
+    foreach ($message_popup_array_raw as $value) {
+      $nbChar = strlen($value);
+      if (($nbChar > 1) && ($nbChar <= 3)) {  // If number of chars > 1 and <= 3, considered as language key
+        $key = $value;
+      } elseif ($nbChar > 3) {               // If number of chars > 3, considered as message content
+        $message_popup_array[$key] = trim($value, " \t\n\r\0\x0B");
       }
+    }
 
-      foreach($message_popup_array as $key => $value) {
-        file_put_contents($basePath . DS . 'popup-message-content.' . $key . '.md', $value);
+    foreach ($message_popup_array as $key => $value) {
+      file_put_contents($basePath . DS . 'popup-message-content.' . $key . '.md', $value);
+    }
+
+
+    /**
+     * Save INSIDE message content in data files
+     */
+    $message_inside_raw = $content['inside']['blockreading']['message'] ?? '';
+
+    //Extract message according current language
+    $message_inside_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_inside_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+    $key = 'all';
+    $message_inside_array = array();
+    foreach ($message_inside_array_raw as $value) {
+      $nbChar = strlen($value);
+      if (($nbChar > 1) && ($nbChar <= 3)) {  // If number of chars > 1 and <= 3, considered as language key
+        $key = $value;
+      } elseif ($nbChar > 3) {               // If number of chars > 3, considered as message content
+        $message_inside_array[$key] = trim($value, " \t\n\r\0\x0B");
       }
+    }
 
-
-      /**
-       * Save INSIDE message content in data files
-       */
-      $message_inside_raw = $obj->file()->content()['inside']['blockreading']['message'];
-
-      //Extract message according current language
-      $message_inside_array_raw = preg_split("/(.*)---([a-zA-Z]{2,3})---(.*)/i", $message_inside_raw, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-
-      $key='all';
-      $message_inside_array = array();
-      foreach($message_inside_array_raw as $value){
-        $nbChar = strlen($value);
-        if (($nbChar > 1) && ($nbChar <=3 )){  // If number of chars > 1 and <= 3, considered as language key
-          $key = $value;
-        } elseif($nbChar > 3) {               // If number of chars > 3, considered as message content
-          $message_inside_array[$key] = trim($value," \t\n\r\0\x0B");
-        }
-      }
-
-      foreach($message_inside_array as $key => $value) {
-        file_put_contents($basePath . DS . 'inside-message-content.' . $key . '.md', $value);
-      }
+    foreach ($message_inside_array as $key => $value) {
+      file_put_contents($basePath . DS . 'inside-message-content.' . $key . '.md', $value);
     }
   }
 
@@ -322,7 +348,7 @@ class DetectAdBlockPlugin extends Plugin
   {
     // Remove / at begining
     $url = trim($url, "/ ");
-    if(strpos($url, "/") > 0) {
+    if (strpos($url, "/") > 0) {
       $url = strstr($url, "/", true);
     }
     return $url;
