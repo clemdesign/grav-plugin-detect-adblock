@@ -81,9 +81,9 @@ class DetectAdBlockPlugin extends Plugin
    */
   public function onPageInitialized()
   {
-    // Wrap in async IIFE so we can await dabDetectAdBlock() safely
-    $inlineJs = '(async function(){';
-    $inlineJs .= 'try{var abDetected=false; if(typeof dabDetectAdBlock===\'function\'){ abDetected = await dabDetectAdBlock(); } }catch(e){ abDetected = true; }';
+    // Wrap in IIFE; perform only fast, synchronous detection here
+    $inlineJs = '(function(){';
+    $inlineJs .= 'var abDetected=false;try{if(typeof dabDetectAdBlock===\'function\'){var res=dabDetectAdBlock();if(typeof res==="boolean"){abDetected=res;}}}catch(e){abDetected=true;}';
 
     // Add Analytics JS (uses abDetected)
     if ($this->config->get('plugins.detect-adblock.ganalytics')) {
@@ -260,24 +260,24 @@ class DetectAdBlockPlugin extends Plugin
     /** @var PageInterface $obj */
     $obj = $event->offsetGet('object');
 
-    // Si pas d'objet, on sort
+    // If there's no object, we leave
     if ($obj === null) {
       return;
     }
 
-    // Protéger l'appel à file() : certains objets (Flex) n'implémentent pas file()
+    // Protecting the call to file(): some objects (Flex) do not implement file()
     try {
       if (!is_callable([$obj, 'file'])) {
         return;
       }
-      $file = $obj->file(); // peut lancer une exception si non supporté
+      $file = $obj->file(); // may throw an exception if not supported
       $basename = $file->basename();
     } catch (\Throwable $e) {
-      // Si file() n'est pas implémenté / lance une erreur, on ne gère pas cette sauvegarde
+      // If file() is not implemented or throws an error, this save is not handled.
       return;
     }
 
-    // Sauver seulement si le formulaire sauvegardé est celui du plugin detect-adblock
+    // Save only if the saved form is that of the detect-adblock plugin
     if ($basename !== "detect-adblock") {
       return;
     }
