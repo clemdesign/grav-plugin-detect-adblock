@@ -1,3 +1,11 @@
+# v2.1.0
+##  03/19/2026
+
+1. [](#bugfix)
+   * General Operations: 
+     - fix global operation
+     - fix Admin panel operation error about "Grav\Framework\Flex\Pages\Traits\PageLegacyTrait::file(): Not Implemented"
+
 # v2.0.4
 ##  03/27/2022
 
