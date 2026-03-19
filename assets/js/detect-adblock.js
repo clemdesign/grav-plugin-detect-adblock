@@ -72,7 +72,7 @@ function dabDetectAdBlock(timeout = 150) {
             };
 
             // Fake ads image URL (must be blocked by ad blockers)
-            img.src = '/user/plugins/detect-adblock/assets/img/ads.png?cb=' + Date.now();
+            img.src = '/user/plugins/detect-adblock/assets/img/ads.jpg?cb=' + Date.now();
         };
 
         setTimeout(checkDom, timeout);
